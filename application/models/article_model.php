@@ -13,7 +13,7 @@ class Article_model  extends LUCKY_Model
 
 	public function get_recently_des($num) {
 
-		$res = $this->db->query('select ad.atitle,ad.abody, ad.atime, ad.anum from article_detail as ad order by ad.atime desc limit '.$num);
+		$res = $this->db->query('select ad.atitle,ad.atime, ad.anum, ad.abody from article_detail as ad order by ad.atime desc limit '.$num);
 
 		return ($res->num_rows() > 0) ?
 					$res->result_array() : FALSE;

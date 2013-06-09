@@ -10,59 +10,33 @@ class Main extends Lucky_Controller
 	public function index()
 	{	
 		
-
-
-
-		$recently_des = $this->article_model->get_recently_des(1);
-		$welcomelist = $this->get_welcome_list($recently_des);
-		$data['welcomelist'] = $welcomelist;
+		// the nearst aricle info.
+		$nearst_list = $this->get_nearst_list();
+		$data['nearst_list'] = $nearst_list;
 		
+		// type num
 		$init_num = $this->get_articlenum_type(1);//type = 1 article num;
 		$data['onenum'] = $init_num;
 		
+
+		//article list
 		$article_list = $this->get_list_type_init();
-		
 		$data['article_list'] = $article_list;
 		$this->load->view('main', $data);
 	}
 
 	//每一个函数都根据view的需要吧查询的数据进行封装。
-	//get once title describe image
-	private function get_welcome_list($result) 
+	//return nearst article:title time nun body describe 
+	private function get_nearst_list() 
 	{
+		$recently_des = $this->article_model->get_recently_des(1);
 		$out = array();
-		foreach ($result as $article) 
-		{
-			foreach ($article as $key => $value) 
-			{
-				if($key == 'abody')	
-				{
-					$describe = substr($value, 0, 320);
-					//获取文章body里面的images的src,存放在$matches
-					preg_match("/(?<=<img src=\").*?(?=\">)/i",$value,$matches);
-					$out['describe'] = $describe;
-					$out['img'] = $matches[0];
-				}
-				if($key == 'atitle')
-				{
-					$out['title'] = $value;
-				}
-			}
-		}
+		$out = $this->save_from_res($recently_des);
 		return $out;
 	}
-	//get article list by type.1:design  2:persion 3:read 
-	//get loop img  title num time describe
-	private function get_articlenum_type($type) 
+	// save data from model into array.
+	private function save_from_res($res) 
 	{
-		$num = $this->article_model->get_articlenum_type($type);
-		return $num;
-
-	}
-	private function get_list_type_init()
-	{
-		$res = $this->article_model->get_article_list(1, 0, 2);
-		$out = array();
 		foreach ($res as $num => $article) {
 			foreach ($article as $key => $value) {
 				if($key == 'abody')
@@ -91,6 +65,21 @@ class Main extends Lucky_Controller
 				}
 			}
 		}
+		return $out;
+	}
+	//get article list by type.1:design  2:persion 3:read 
+	//get loop img  title num time describe
+	private function get_articlenum_type($type) 
+	{
+		$num = $this->article_model->get_articlenum_type($type);
+		return $num;
+
+	}
+	private function get_list_type_init()
+	{
+		$res = $this->article_model->get_article_list(1, 0, 2);
+		$out = array();
+		$out = $this->save_from_res($res);
 		return $out;
 	}
 
