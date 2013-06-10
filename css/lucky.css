@@ -229,7 +229,6 @@ header {
 #achieve_detail {
   
   width: 74.21%; 
-  overflow: hidden;
   position: relative;
   float: left;
   background-color: #ffffff;
@@ -258,14 +257,7 @@ header {
   font-size: 20px;
   padding-bottom: 10px;
 }
-.recommend {
-  margin-bottom: 2em;、
-}
 
-.recommend a {
-  text-decoration: none;
-  color: #0192d3;
-}
 .article_body p {
   padding-bottom: 2em;
 }
@@ -279,14 +271,22 @@ header {
    width: 725px;
    margin-left: -10px;
    float: left;
-   
+   display: none;
    z-index: 12;
    background-color: #484745; 
 }
-
+#article_list {
+  min-height: 500px;
+}
+.error {
+  color:red;
+  margin: 40px;
+  font-size: 20px;
+}
 #navigation {
   height: 112px;
   background-color: #282725;
+  margin-top: -200px;
 
 }
 #navigation ul {

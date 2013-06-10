@@ -18,7 +18,6 @@ class Main extends Lucky_Controller
 		$init_num = $this->get_articlenum_type(1);//type = 1 article num;
 		$data['onenum'] = $init_num;
 		
-
 		//article list
 		$article_list = $this->get_list_type_init();
 		$data['article_list'] = $article_list;
@@ -45,6 +44,7 @@ class Main extends Lucky_Controller
 					//获取文章body里面的images的src,存放在$matches
 					preg_match("/(?<=<img src=\").*?(?=\">)/i",$value,$matches);
 					$out[$num]['describe'] = $describe;
+					$out[$num]['body'] = $value;
 					if($matches) 
 					{
 						$out[$num]['img'] = $matches[0];	
@@ -66,6 +66,7 @@ class Main extends Lucky_Controller
 			}
 		}
 		return $out;
+
 	}
 	//get article list by type.1:design  2:persion 3:read 
 	//get loop img  title num time describe
@@ -89,5 +90,20 @@ class Main extends Lucky_Controller
 		preg_match("/(?<=<p>).*?(?=<\/p>)/",$str,$matches);
 		return $matches[0];
 	}
-	
+
+	// when user click the nav li.respone with $num, two article.
+	public function response_type_ajax() 
+	{
+		$out = array();
+
+		$type = stripslashes(trim($_POST['type']));
+		$type += 1;
+
+		$sum = $this->get_articlenum_type($type);
+		
+		$article = $this->article_model->get_article_list($type, 0, 2);
+		$out = $this->save_from_res($article);
+		$out['sum'] = $sum;
+		echo json_encode($out);//change array into json.
+	}
 }

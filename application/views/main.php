@@ -48,14 +48,14 @@
 				<p>Welcome</p>
 			</div>
 			<div class="welcome_article">
-				<?php if($welcomelist['img']!= NULL): ?>
-					<div class="article_img"><img src="<?php echo $welcomelist['img']?>" style="width:600px;height:308px"></div>
+				<?php if($nearst_list[0]['img']!= NULL): ?>
+					<div class="article_img"><img src="<?php echo $nearst_list[0]['img']?>" style="width:600px;height:308px"></div>
 				<?php endif;?>
 				<div class="article_content">
 					<div class="article_txt">
-						<?php if($welcomelist != NULL): ?>
-							<h1> <?php echo $welcomelist['title'] ?></h1>
-							<p> <?php echo $welcomelist['describe'] ?> </p>
+						<?php if($nearst_list[0] != NULL): ?>
+							<h1> <?php echo $nearst_list[0]['title'] ?></h1>
+							<p> <?php echo $nearst_list[0]['describe'] ?> </p>
 						<?php else :?>
 							<?php echo '你还没有写文章哦，快去后台写一篇呗！';?>
 						<?php endif;?>
@@ -101,31 +101,17 @@
 				<section id="achieve_detail">
 					<article>
 						<header class="article_header">
-							<h2>打造扁平化设计的5大原则</h2>
-							<p>2013/05/31|阅读: 0</p>
+							<h2><?php echo $nearst_list[0]['title'] ?></h2>
+							<p><?echo $nearst_list[0]['time']?> | 阅读: <?php echo $nearst_list[0]['num']?></p>
 						</header>
 						<section class="article_body">
-							<p>Kryptoners：如今设计界最炙手可热的明星大概就是扁平化设计了吧，关于它的讨论至今都没有冷却的迹象。诸多设计师分成了泾渭分明的两个阵营，一边努力把扁平化做到极致，一面对其不屑一顾。</p>
-							<p>我是个骑墙派，不支持也不反对，在我看来，优秀的设计的定义就是好用，只要能设计出优秀的产品，我可以采用任何方式，扁平化也是其中之一。但是必须意识到，没有哪种风格是包打天下的，不能强行将一种风格应用到不该用的地方。</p>
-							<p>那么，扁平化究竟该怎么实现怎么应用呢？下文将要做的就是分析扁平化的五个最典型的特征，同时也介绍一下伪扁平化（不含贬义，只是一种折衷的设计方式）。</p>
+							<?php echo $nearst_list[0]['body']?>
 						</section>
-						<section class="recommend">
-							<p>延伸阅读</p>
-							<p><a href="">推荐！22个超赞的扁平化设计经典案例</a></p>
-							<p><a href="">一套最新的扁平化UI组件包免费下载</a></p>
-						</section>
-						<section class="article_body">
-							<h3>一、拒绝特效</h3>
-							<img src="../img/article_image.png" alt="aricle_img">
-							<p>扁平化这个词来自于这种设计所使用的样式和形状，它完全属于二次元世界，一个简单的形状加没有景深的.</p>
-							<p>这个概念最核心的地方就是放弃一切装饰效果，诸如阴影、透视、纹理、渐变等等能做出 3D 效果的元素一概不用。所有的元素的边界都干净俐落，没有任何羽化、渐变或者阴影。</p>
-
-							<h3>二、界面元素</h3>
-						</section>
+						
 					</article>
 					<section id="list">
 						<div id="article_list"> 
-							<?php foreach ($article_list as $article):?>
+							<!-- <?php foreach ($article_list as $article):?>
 								<?php if($article != NULL): ?>
 									<div class="article_show">
 										<article>
@@ -146,23 +132,23 @@
 									<p><?php echo '你还没有写文章哦，去后台写一篇呗！'?></p>
 								<?php endif?>
 							<?php endforeach?>
+							<div id="navigation">
+								<ul class="clearfix">
+									<li><a href="">首页</a></li>
+									<li><a href=""><<</a></li>
+									<li><a href="">1</a></li>
+									<?php if($onenum >=2):?>
+										<li><a href="">2</a></li>
+									<?php endif;?>
+									<?php if($onenum >= 5):?>
+										<li><a href="">3</a></li>
+									<?php endif;?>
+									<li><a href="">>></a></li>
+									<li><a href="">尾页</a></li>
+								</ul>
+							</div> -->
 						</div>
-						<div id="navigation">
-							<ul class="clearfix">
-
-								<li><a href="">首页</a></li>
-								<li><a href=""><<</a></li>
-								<li><a href="">1</a></li>
-								<?php if($onenum >=2):?>
-									<li><a href="">2</a></li>
-								<?php endif;?>
-								<?php if($onenum >= 5):?>
-									<li><a href="">3</a></li>
-								<?php endif;?>
-								<li><a href="">>></a></li>
-								<li><a href="">尾页</a></li>
-							</ul>
-						</div>
+						
 					</section>
 				</section>
 			</div>
