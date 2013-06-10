@@ -111,42 +111,6 @@
 					</article>
 					<section id="list">
 						<div id="article_list"> 
-							<!-- <?php foreach ($article_list as $article):?>
-								<?php if($article != NULL): ?>
-									<div class="article_show">
-										<article>
-											<header class="article_header">
-												<h2><?php echo $article['title']?></h2>
-												<p><?php echo $article['time']?> | 阅读: <?php echo $article['num']?></p>
-											</header>
-											<?php if(@$article['img']!= NULL): ?>
-												<img src="<?php echo $article['img']?>" style="width:638px;height:149px">
-											<?php endif;?>
-											<section class="article_body clearfix">
-												<p><?php echo $article['describe']?></p>
-												<p class="clearfix read_all"><a href="">阅读全文&#8594;</a></p>	
-											</section>	
-										</article>
-									</div>	
-								<?php else :?>
-									<p><?php echo '你还没有写文章哦，去后台写一篇呗！'?></p>
-								<?php endif?>
-							<?php endforeach?>
-							<div id="navigation">
-								<ul class="clearfix">
-									<li><a href="">首页</a></li>
-									<li><a href=""><<</a></li>
-									<li><a href="">1</a></li>
-									<?php if($onenum >=2):?>
-										<li><a href="">2</a></li>
-									<?php endif;?>
-									<?php if($onenum >= 5):?>
-										<li><a href="">3</a></li>
-									<?php endif;?>
-									<li><a href="">>></a></li>
-									<li><a href="">尾页</a></li>
-								</ul>
-							</div> -->
 						</div>
 						
 					</section>

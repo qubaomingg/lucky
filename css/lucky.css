@@ -289,6 +289,9 @@ header {
   margin-top: -200px;
 
 }
+#article_list #navigation .iamcurrent {
+  background: lightblue;
+}
 #navigation ul {
   position: relative;
   left: 20%;
@@ -309,7 +312,7 @@ header {
   background-color: #f8fdf7;
   list-style: none;
   text-decoration: none;
-  color:;
+  
 }
 
 
