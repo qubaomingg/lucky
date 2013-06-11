@@ -103,25 +103,26 @@
 				// helper: tell tag and time from type ask.
 				function _tell_from_type(type,current) {
 					if(parseInt(type) > 4) {
-						response_ajax(type, current,'get_article_time');
+						time_ajax(type, current);
 					} else {
 						if(tagbody) {
-							response_ajax(type, current, 'get_article_tag')
+							tag_ajax(type, current);
 						} else {
-							response_ajax(type, current, 'get_article_type');
+							type_ajax(type, current);
 						}
 					}
 				}
 				switch (value) {
 					case 'first':  
-						$('.achieve_nav li').eq(type-1).click();
+						current = 1;
+						_tell_from_type(type, current);	
 						break;
 					case 'previous': 
 						//if the current is not 1.
 
 						if( current != 1) {
 							current = current - 1;
-							_tell_from_type(type, current);
+							_tell_from_type(type, current);	
 						}
 						break;
 					case 'next':
@@ -131,9 +132,10 @@
 						}
 						break;
 					case 'last':
+
 						if( parseInt(current) != Math.ceil(sum/2)) {
 							current = Math.ceil(sum/2);
-							_tell_from_type(type, current);
+							_tell_from_type(type, current);	
 						}					
 						break;
 					default:
@@ -149,7 +151,26 @@
 				show_article_list(0);
 				var current = 1;
 				var tagid = $(this).attr('data-value');
-				response_ajax(tagid, current, 'get_article_tag');
+				$.ajax({
+					type: "POST",
+					url: "/main/get_article_tag",
+					dataType: 'json',
+					data: {'tagid': tagid, 'current': current},
+					timeout: 10000,
+					beforeSend: function() {
+						$('#article_list').empty().innerHTML = '<img class="loading" src="../img/load.gif">';
+					},
+					success: function(json) {
+						json2divstr(json, tagid, current);
+						setCurrent();
+					},
+					error: function(xhr, status, error ) {
+
+						var error = "<p class='error'>I'm sorry, your Internet connection is not good, please try again later</p><div id='navigation'><ul class='clearfix'><li><a href='' data-value='first'>首页</a></li><li><a href='' data-value='previous'><<</a></li><li><a href='' data-value='1'>1</a></li><li><a href='' data-value='2'>2</a></li><li><a href='' data-value='3'>3</a></li><li><a href='' data-value='next'>>></a></li><li><a href='' data-value='last'>尾页</a></li></ul></div>";
+						$('#article_list').empty().html(error);	
+					}
+				});	
+
 				return false;
 			});
 			// timequery click
@@ -157,7 +178,7 @@
 				show_article_list(0);
 				var querytime = $(this).attr('data-value');
 				var current = 1;
-				response_ajax(querytime, current, 'get_article_time');
+				time_ajax(querytime, current);
 				return false;
 			});
 			
@@ -165,13 +186,18 @@
 			$('.achieve_nav li').click(function() {
 				var type = $(this).index() + 1;
 				var current = 1;
-				response_ajax(type, current, 'get_article_type');
+				type_ajax(type, current);
 			});
 
 			// helpers: json(sum,img,describe.title. time. num), current,type
 			function json2divstr(json, type, current) {
 				var pre, fakenext, fakecurrent = 0;
 				var sum = json['sum'];
+				var tagbody = '';
+				if(json['tagbody']) {
+					var tagbody = json['tagbody']['tagbody'];	
+				}
+				
 				// generate nav number.
 				if(current == 1) {
 					pre = 1;
@@ -192,20 +218,24 @@
 				// concat the required list. 
 				for(var key in json) {
 
-					if(key != 'sum' && sum != 0) {
+					if(key != 'sum' && key != 'tagbody' && sum != 0 ) {
 						article_list_child += "<div class='article_show'><article><header class='article_header'><h2>"+json[key].title+"</h2><p>"+json[key].time+" | 阅读:"+json[key].num+" </p></header>";
 						if(json[key].img) {
 							article_list_child += "<img src=" + json[key].img+" style='width:638px;height:149px'>";
 						}
 						article_list_child += "<section class='article_body clearfix'><p>"+json[key].describe+"</p><p class='clearfix read_all'><a href=''>阅读全文&#8594;</a></p></section></article></div>";
-					}
-					if(sum == 0) {
+					} else if(sum == 0) {
 						article_list_child +="<div class='article_show'><article><header class='article_header'><h2>没有文章呢！</h2></header></article></div>";
 					}
 
 				}
+				if(json['tagbody']) {
+					article_list_child += "<div id='navigation'><ul data-tagbody='"+tagbody+"' data-sum='"+sum+"' data-current='"+current+"' data-value='"+type+"' class='clearfix'><li><a href='' data-value='first'>首页</a></li><li><a href='' data-value='previous'><<</a></li><li><a  href='' data-value='"+pre+"'>"+pre+"</a></li>";
+				} else {
+					article_list_child += "<div id='navigation'><ul data-sum='"+sum+"' data-current='"+current+"' data-value='"+type+"' class='clearfix'><li><a href='' data-value='first'>首页</a></li><li><a href='' data-value='previous'><<</a></li><li><a  href='' data-value='"+pre+"'>"+pre+"</a></li>";					
+				}
 
-				article_list_child += "<div id='navigation'><ul data-tagbody='"+json['tagbody']+"' data-sum='"+sum+"' data-current='"+current+"' data-value='"+type+"' class='clearfix'><li><a href='' data-value='first'>首页</a></li><li><a href='' data-value='previous'><<</a></li><li><a  href='' data-value='"+pre+"'>"+pre+"</a></li>";
+				
 				if(sum > 2) {
 					article_list_child += "<li><a href='' data-value='"+fakecurrent+"'>"+fakecurrent+"</a></li>";
 				}
@@ -217,11 +247,31 @@
 				$('#article_list').empty().html(article_list_child);
 			}
 
-			
-			function response_ajax(type, current, func) {
+			function time_ajax(querytime, current) {
 				$.ajax({
 					type: "POST",
-					url: "/main/" + func,
+					url: "/main/get_article_time",
+					dataType: 'json',
+					data: {'querytime': querytime, 'current': current},
+					timeout: 10000,
+					beforeSend: function() {
+						$('#article_list').empty().innerHTML = '<img class="loading" src="../img/load.gif">';
+					},
+					success: function(json) {
+						json2divstr(json, querytime, current);
+						setCurrent();
+					},
+					error: function(xhr, status, error ) {
+
+						var error = "<p class='error'>I'm sorry, your Internet connection is not good, please try again later</p><div id='navigation'><ul class='clearfix'><li><a href='' data-value='first'>首页</a></li><li><a href='' data-value='previous'><<</a></li><li><a href='' data-value='1'>1</a></li><li><a href='' data-value='2'>2</a></li><li><a href='' data-value='3'>3</a></li><li><a href='' data-value='next'>>></a></li><li><a href='' data-value='last'>尾页</a></li></ul></div>";
+						$('#article_list').empty().html(error);	
+					}
+				});	
+			}
+			function type_ajax(type, current) {
+				$.ajax({
+					type: "POST",
+					url: "/main/get_article_type",
 					dataType: 'json',
 					data: {'type': type, 'current': current},
 					timeout: 10000,
@@ -238,7 +288,26 @@
 					}
 				});	
 			}
-			
+			function tag_ajax(type, current) {
+				$.ajax({
+					type: "POST",
+					url: "/main/get_article_tag",
+					dataType: 'json',
+					data: {'type': type, 'current': current},
+					timeout: 10000,
+					beforeSend: function() {
+						$('#article_list').empty().innerHTML = '<img class="loading" src="../img/load.gif">';
+					},
+					success: function(json) {
+						json2divstr(json, type, current);
+						setCurrent();
+					},
+					error: function() {
+						var error = "<p class='error'>I'm sorry, your Internet connection is not good, please try again later</p><div id='navigation'><ul class='clearfix'><li><a href='' data-value='first'>首页</a></li><li><a href='' data-value='previous'><<</a></li><li><a href='' data-value='1'>1</a></li><li><a href='' data-value='2'>2</a></li><li><a href='' data-value='3'>3</a></li><li><a href='' data-value='next'>>></a></li><li><a href='' data-value='last'>尾页</a></li></ul></div>";
+						$('#article_list').empty().html(error);	
+					}
+				});	
+			}
 			function setCurrent() {
 				var current = $('#navigation ul').attr('data-current');
 				var now = parseInt(current) + 1;

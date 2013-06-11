@@ -144,10 +144,11 @@ class Main extends Lucky_Controller
 		
 		$sum = $this->article_model->get_articlenum_tag($tagid);
 		$tagbody = $this->article_model->get_tagbody_tag($tagid);
+		
 		$article = $this->article_model->get_article_tag($tagid, 2*($current-1), 2);
 		$out = $this->save_from_res($article);
 		$out['sum'] = $sum;
-		$out['tagbody'] = $tagbody;
+		$out['tagbody'] = $tagbody[0];
 		echo json_encode($out);
 	}
 	
