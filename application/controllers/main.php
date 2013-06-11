@@ -36,6 +36,9 @@ class Main extends Lucky_Controller
 	// save data from model into array.
 	private function save_from_res($res) 
 	{
+		$out = array();
+
+		if(!$res) return false;
 		foreach ($res as $num => $article) {
 			foreach ($article as $key => $value) {
 				if($key == 'abody')
@@ -92,9 +95,10 @@ class Main extends Lucky_Controller
 	}
 
 	// when user click the nav li.respone with $num, two article.
-	public function response_type_ajax() 
+	public function get_article_type() 
 	{
 		$out = array();
+
 		$type = stripslashes(trim($_POST['type']));
 		$current = stripslashes(trim($_POST['current']));
 		$sum = $this->get_articlenum_type($type);
@@ -103,6 +107,48 @@ class Main extends Lucky_Controller
 		$out = $this->save_from_res($article);
 		$out['sum'] = $sum;
 		echo json_encode($out);//change array into json.
+	}
+
+	public function get_read_all() 
+	{
+		$out = array();
+		$title = stripslashes(trim($_POST['title']));
+		
+		$article = $this->article_model->get_article_title($title);
+		echo json_encode($article[0]);
+	}
+
+	public function get_article_time() 
+	{
+		$out = array();
+
+		$querytime = stripcslashes(trim($_POST['querytime']));
+		$current = stripslashes(trim($_POST['current']));
+		
+		$sum = $this->article_model->get_articlenum_time($querytime);
+
+		$article = $this->article_model->get_article_list_time($querytime, 2*($current-1), 2);
+
+		$out = $this->save_from_res($article);
+		$out['sum'] = $sum;
+		
+		echo json_encode($out);//change array into json.
+	}
+
+	public function get_article_tag()
+	{
+		$out = array();
+
+		$tagid = stripcslashes(trim($_POST['tagid']));
+		$current = stripslashes(trim($_POST['current']));
+		
+		$sum = $this->article_model->get_articlenum_tag($tagid);
+		$tagbody = $this->article_model->get_tagbody_tag($tagid);
+		$article = $this->article_model->get_article_tag($tagid, 2*($current-1), 2);
+		$out = $this->save_from_res($article);
+		$out['sum'] = $sum;
+		$out['tagbody'] = $tagbody;
+		echo json_encode($out);
 	}
 	
 }

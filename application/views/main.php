@@ -76,19 +76,19 @@
 					<a href="" class="list_taggle"></a>
 					<ul class="achieve_item achieve_tag clearfix">
 						<li class="achieve_item_tag">标签</li>
-						<li class="tag_big"><a href="">PSD</a></li>
-						<li class="tag_small"><a href="">UI</a></li>
-						<li class="tag_big"><a href="">网页设计</a></li>
-						<li class="tag_big"><a href="">用户体验</a></li>
-						<li class="tag_small"><a href="">好文</a></li>
-						<li class="tag_small"><a href="">界面设计</a></li>
+						<li class="tag_big"><a data-value="1" href="">PSD</a></li>
+						<li class="tag_small"><a data-value="2" href="">UI</a></li>
+						<li class="tag_big"><a data-value="3" href="">网页设计</a></li>
+						<li class="tag_big"><a data-value="4" href="">用户体验</a></li>
+						<li class="tag_small"><a data-value="5" href="">好文</a></li>
+						<li class="tag_small"><a data-value="6" href="">界面设计</a></li>
 					</ul>
 					<ul class="achieve_item achieve_time clearfix">
 						<li class="achieve_item_tag">存档时间</li>
-						<li class="time"><a href="">2013 年6月</a></li>
-						<li class="time"><a href="">2013 年5月</a></li>
-						<li class="time"><a href="">2013 年4月</a></li>
-						<li class="time"><a href="">2013 年3月</a></li>
+						<li class="time"><a data-value="2013-06" href="">2013 年6月</a></li>
+						<li class="time"><a data-value="2013-05" href="">2013 年5月</a></li>
+						<li class="time"><a data-value="2013-04" href="">2013 年4月</a></li>
+						<li class="time"><a data-value="2013-03" href="">2013 年3月</a></li>
 					</ul>
 					<ul class="achieve_item achieve_focus clearfix">
 						<li class="achieve_item_tag">我的关注</li>
