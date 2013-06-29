@@ -101,11 +101,14 @@ class Main extends Lucky_Controller
 
 		$type = stripslashes(trim($_POST['type']));
 		$current = stripslashes(trim($_POST['current']));
+//		$type = "1";
+//		$current = "1";
 		$sum = $this->get_articlenum_type($type);
 
 		$article = $this->article_model->get_article_list($type, 2*($current-1), 2);
 		$out = $this->save_from_res($article);
 		$out['sum'] = $sum;
+
 		echo json_encode($out);//change array into json.
 	}
 

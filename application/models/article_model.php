@@ -2,13 +2,13 @@
 /*
 * user_info
 */
-class Article_model  extends LUCKY_Model
+class Article_model  extends CI_Model
 {
 
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->database();
+		
 	}
 
 	public function get_recently_des($num) {

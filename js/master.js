@@ -12,7 +12,7 @@
 			$('.time').click(function() {
 				$('.time').removeClass('time_now');
 				$(this).addClass('time_now');
-				console.log(parseInt($('.article_list').css('top')));
+				
 				if( parseInt($('.article_list').css('top')) == 0) return false;
 				that.showList();
 				return false;

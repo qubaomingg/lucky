@@ -34,4 +34,9 @@ class Master extends Lucky_Controller
 		}
 		*/
 	}
+	public function write() 
+	{
+		$data['isWrite'] = true;
+		$this->load->view('master', $data);
+	}
 }

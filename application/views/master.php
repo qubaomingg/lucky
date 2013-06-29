@@ -15,9 +15,16 @@
     <!-- link -->
     <link rel="stylesheet" href="../css/master.css">
 	<link rel="stylesheet" href="../css/component/YUI_reset.css">
+	
+	<script src="../js/components/jquery.js"></script>
+	<!-- xhedit插件引入 -->
+	<script type="text/javascript" src="../js/components/TQEditor.js"></script>
+	
 </head>
 <body>
+
 	<div id="wrap">
+		<?php $this->load->view("public/header");?>
 		<div id="header_content">
 			<header>
 				<div>
@@ -62,40 +69,71 @@
 						</ul>
 					</div>
 				</aside>
-				<div class="back_article">
-					<article >
-						
-						<div class="back_article_header">
-							<h2>推荐！22个超赞的扁平化设计经典案例</h2>
-							<time>2013/04/02｜21</time>
+
+				<?php if (!isset($isWrite)): ?>
+					<div class="back_article">
+						<article >
+							
+							<div class="back_article_header">
+								<h2>推荐！22个超赞的扁平化设计经典案例</h2>
+								<time>2013/04/02｜21</time>
+							</div>
+							<section>
+								<p>不难发现，有一个新的简约设计趋势(风格)正向我们袭来。想必大家已经猜到咯，Flat Design！刚刚改版的新浪首页也更加简洁干练，扁平透气的风格也让很多小网龄用户感觉潮流新颖。那么，跟随潮流的设计师们，你们准备好学习这种设计手法了么？或者超前的你已经深得要领了？嘿嘿！这可不是就像有些人说的，仅仅是剥开所有的3 d元素、渐变、阴影和特效呢。</p>
+								<p>扁平化设计的纯粹和简单，以及它倡导的”歇斯底里的简约”，逐渐被用户认可、欣赏。如果你厌倦了繁琐的这一切，想依靠点什么来玩些新花样，那么是时候在你的稿子里注入Flat Design的因子了。今天我们展现了22个漂亮的例子，为你在学习Flat Design设计风格的过程中，零距离感受这股势不可挡的设计趋势。相信接下来会是一场灵感的饕餮盛宴，尽情享用吧：）</p>
+							</section>
+						</article>
+						<div class="article_list">
+							<ul>
+								<div class="back_article_header">
+									<h2>推荐！22个超赞的扁平化设计经典案例</h2>
+									<time>2013/04/02｜21</time>
+								</div>
+								<section>
+									<p>不难发现，有一个新的简约设计趋势(风格)正向我们袭来。想必大家已经猜到咯，Flat Design！刚刚改版的新浪首页也更加简洁干练，扁平透气的风格也让很多小网龄用户感觉潮...</p>
+								</section>
+							</ul>
+							<ul>
+								<div class="back_article_header">
+									<h2>推荐！22个超赞的扁平化设计经典案例</h2>
+									<time>2013/04/02｜21</time>
+								</div>
+								<section>
+									<p>不难发现，有一个新的简约设计趋势(风格)正向我们袭来。想必大家已经猜到咯，Flat Design！刚刚改版的新浪首页也更加简洁干练，扁平透气的风格也让很多小网龄用户感觉潮...</p>
+								</section>
+							</ul>
 						</div>
-						<section>
-							<p>不难发现，有一个新的简约设计趋势(风格)正向我们袭来。想必大家已经猜到咯，Flat Design！刚刚改版的新浪首页也更加简洁干练，扁平透气的风格也让很多小网龄用户感觉潮流新颖。那么，跟随潮流的设计师们，你们准备好学习这种设计手法了么？或者超前的你已经深得要领了？嘿嘿！这可不是就像有些人说的，仅仅是剥开所有的3 d元素、渐变、阴影和特效呢。</p>
-							<p>扁平化设计的纯粹和简单，以及它倡导的”歇斯底里的简约”，逐渐被用户认可、欣赏。如果你厌倦了繁琐的这一切，想依靠点什么来玩些新花样，那么是时候在你的稿子里注入Flat Design的因子了。今天我们展现了22个漂亮的例子，为你在学习Flat Design设计风格的过程中，零距离感受这股势不可挡的设计趋势。相信接下来会是一场灵感的饕餮盛宴，尽情享用吧：）</p>
-						</section>
-					</article>
-					<div class="article_list">
-						<ul>
-							<div class="back_article_header">
-								<h2>推荐！22个超赞的扁平化设计经典案例</h2>
-								<time>2013/04/02｜21</time>
-							</div>
-							<section>
-								<p>不难发现，有一个新的简约设计趋势(风格)正向我们袭来。想必大家已经猜到咯，Flat Design！刚刚改版的新浪首页也更加简洁干练，扁平透气的风格也让很多小网龄用户感觉潮...</p>
-							</section>
-						</ul>
-						<ul>
-							<div class="back_article_header">
-								<h2>推荐！22个超赞的扁平化设计经典案例</h2>
-								<time>2013/04/02｜21</time>
-							</div>
-							<section>
-								<p>不难发现，有一个新的简约设计趋势(风格)正向我们袭来。想必大家已经猜到咯，Flat Design！刚刚改版的新浪首页也更加简洁干练，扁平透气的风格也让很多小网龄用户感觉潮...</p>
-							</section>
-						</ul>
 					</div>
-				</div>
+				<?php endif; ?>
 				
+				
+				<?php if (isset($isWrite)): ?>
+					<div id="addArticle">
+						<form id="add_form" action="#" method="post" name="add_form">
+							<fieldset>
+								<legend>addArticle</legend>
+								<p>
+									<label for="add_achieve">归类</label>
+									<input type="text" id="add_achieve" name="add_achieve">
+								</p>
+								<p>
+									<label for="add_title">标题</label>
+									<input type="text" id="add_title" name="add_title">
+								</p>
+								<p>
+									<label for="add_tag">标签</label>
+									<input type="text" id="add_tag" name="add_tag">
+								</p>
+								
+								<textarea id="write" class="xheditor" rows="10" cols="50">			</textarea>
+								<script type="text/javascript" defer="true"> 
+									// 自定义ＴＱＥｄｉｔｏｒ的图标
+									new tqEditor('write',{toolbar:['paragraph','fontname','fontsize','forecolor','backcolor','bold','italic','underline','strikethrough','|','justifyleft','justifycenter','justifyright','unorderedlist','iodent','outdent','indent','inserhorizontalrule','createlink','unlink','subscript','superscript','|','inserttable','insertface','insertimage'],toolbarRight:['fullscreen','help']}); 
+								</script>
+							</fieldset>
+						</form>
+					</div>
+				<?php endif; ?>
 			</section>	
 		</div>
 		
@@ -103,7 +141,7 @@
 			
 		</footer>	
 	</div>
-	<script src="../js/components/jquery.js"></script>
+	
 	<script src="../js/master.js"></script>
 </body>
 </html>

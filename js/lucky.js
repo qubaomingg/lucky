@@ -17,8 +17,7 @@
 		},
 
 		hand_click: function() {
-			
-
+			that = this;
 			//welcome 2 aticle
 			$('.welcome_article .read_all').click(function() {
 				$('#welcome').animate({
@@ -32,6 +31,7 @@
 						'width': '100%',
 						'marginLeft': '0px'
 					},500,function() {
+						that.the_same_height($('#achieve'), $('#achieve_detail'));
 				});
 				return false;
 			});
@@ -279,6 +279,7 @@
 						$('#article_list').empty().innerHTML = '<img class="loading" src="../img/load.gif">';
 					},
 					success: function(json) {
+
 						json2divstr(json, type, current);
 						setCurrent();
 					},
@@ -322,6 +323,7 @@
 				$('#list').animate({
 					'width':'725px'
 				},200,function() {
+					$('#main').css('overflow', 'visible');
 					$(this).animate({'height': '690px','top': top - 3 + 'px'},100);
 				});
 			}
@@ -329,7 +331,7 @@
 	};
 	window.onload = function() {
 		var pixeldot = new lucky();
-		pixeldot.the_same_height($('#achieve'), $('#achieve_detail'));
+		
 		pixeldot.roll_arrow();
 		pixeldot.hand_click();
 	};

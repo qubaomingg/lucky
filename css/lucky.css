@@ -64,7 +64,7 @@ header {
 .hero_name {
   font-family: 'axuerhandwriting';
   position: absolute;
-  left: 10%;
+  left: 9.2%;
   top: 107px;
   z-index: 11;
   font-size: 22px
@@ -114,8 +114,7 @@ header {
   width: 18.63%;
   float: left;
   position: relative;
-
-  min-height: 609px;
+  min-height: 690px;
   border-right: 10px solid #484745;
 }
 
@@ -210,7 +209,7 @@ header {
 }
 
 .achieve_item .achieve_item_tag {
-  color: #787a86;
+  color: #4f5263;
   width: 133px;
   height: 24px;
   line-height: 24px;
@@ -286,7 +285,6 @@ header {
 #navigation {
   height: 112px;
   background-color: #282725;
-  margin-top: -200px;
 
 }
 #article_list #navigation .iamcurrent {
@@ -318,7 +316,11 @@ header {
 
 .article_show {
   border-top: 1px solid #636261;
-  padding: 24px 41px;
+  padding: 24px 41px 0 41px;
+  background: #484745;
+}
+.article_show article {
+  padding-bottom: 10px;
 }
 .article_show h2 {
   font-size: 18px;
@@ -343,6 +345,7 @@ header {
 .article_show .read_all a{
   display: inline-block;
   width: 113px;
+  
   height: 36px;
   text-decoration: none;
   background-color: #0192d3;
@@ -369,20 +372,18 @@ header {
   margin-left: 3%;
   background: #ffffff;
   position: relative;
-  top: -5px
 }
 
 #welcome_text p,
 #welcome_text span {
-  font-size: 116px;
-  color: #0192d3
+  font-size: 114px;
+  color: #0192d3;
 }
 
 #welcome_text span {
   display: inline-block;
-  margin-left: 61px;
-  
-  margin-top: -40px
+  margin-left: 44px;
+  margin-top: 18px
 }
 
 #welcome_text p {
@@ -391,9 +392,12 @@ header {
   -ms-transform: rotate(-90deg);
   -o-transform: rotate(-90deg);
   transform: rotate(-90deg);
-  margin-left: 4px;
   position: absolute;
-  top: 384px;
+  top: 286px;
+  left: -152px;
+  /*top: 414px;
+  left: -34px;*/
+  font-size: 130px;
 }
 .welcome_article {
 	position: absolute;
@@ -406,7 +410,7 @@ header {
 	color: white;
   position: relative;
   height: 161px;
-  margin-top: -3px;
+  margin-top: -4px;
 }
 .article_content h1 {
 	font-size: 36px;
@@ -486,7 +490,7 @@ header {
 /*   footer  176px*/
 
 footer {
-  height: 176px;
+  height: 258px;
   color: #dbdcd7;
   background-color: #484745;
   font-family: 'fzsejt';

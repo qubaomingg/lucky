@@ -15,36 +15,11 @@
 	
 </head>
 <body>
-
 	<section id="wrap">
-		<header>
-			<div id="header_top">
-				<img src="../img/hero.gif" alt="logo" id="hero">
-				<p class="hero_name">lucky_pixeldot</p> 
-				<div id="slogan">
-					<p class="hero_say">用研有女初长成</p>
-				</div>	
-				<div id="social">
-					<ul class="clearfix">
-						<li>
-							<a href=""><img src="../img/twitter.png"></a>
-							<span>Twitter</span>
-						</li>
-						<li>
-							<a href=""><img src="../img/facebook.png"></a>
-							<span>Facebook</span>
-						</li>
-						<li>
-							<a href=""><img src="../img/dribble.png" alt=""></a>
-							<span>Dribbble</span>
-						</li>
-					</ul>
-				</div>
-			</div> 		
-		</header>
+		<?php $this->load->view("public/header");?>
 		<section id="welcome">
 			<div id="welcome_text">
-				<span>&#8222;</span>
+				<span>”</span>
 				<p>Welcome</p>
 			</div>
 			<div class="welcome_article">
@@ -66,7 +41,7 @@
 			</div>			
 		</section>
 		<section id="main" class="clearfix">
-			<div id="submain">
+			<div id="submain"> <!-- 好处:点击welcome动画后文章不会在最下面动 -->
 				<aside id="achieve">
 					<ul class="achieve_nav clearfix">
 						<li ><a href="">设计篇(0)</a></li>
