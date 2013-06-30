@@ -11,9 +11,10 @@ class Article_model  extends CI_Model
 		
 	}
 
-	public function get_recently_des($num) {
+	public function get_recently_des($num) 
+	{
 
-		$res = $this->db->query('select ad.atitle,ad.atime, ad.anum, ad.abody from article_detail as ad order by ad.atime desc limit '.$num);
+		$res = $this->db->query('select ad.atitle,ad.atime, ad.anum, ad.abody,ad.detailid from article_detail as ad order by ad.atime desc limit '.$num);
 
 		return ($res->num_rows() > 0) ?
 					$res->result_array() : FALSE;
@@ -60,7 +61,14 @@ class Article_model  extends CI_Model
 		return ($query->num_rows() > 0) ?
 					$query->result_array() : FALSE;	
 	}
-
+	public function get_article_detailid($detailid)
+	{
+		$this->db->select('*');
+		$this->db->where('detailid', $detailid);
+		$query = $this->db->get('article_detail');
+		return ($query->num_rows() > 0) ?
+					$query->result_array() : FALSE;	
+	}
 
 	// relative to tag
 	public function  get_articlenum_tag($tagid) 
@@ -86,5 +94,6 @@ class Article_model  extends CI_Model
 					$query->result_array() : FALSE;	
 	}
 
+	
 }
 ?>

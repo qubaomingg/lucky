@@ -7,7 +7,22 @@
 				return false;
 			});
 		},
-		timeClick: function() {
+		handleClick: function() {
+			// tag click
+			$('#oldTag').on('click', 'span', function() {
+				var content = $(this).text();
+				var oldstr = $('#add_tag').val();
+
+				if(!oldstr) oldstr = "";
+				if(oldstr !== '') {
+					oldstr += "," + content;	
+				} else {
+					oldstr += content;
+				}
+				$('#add_tag').val(oldstr);
+			});
+
+			// time click
 			that = this;
 			$('.time').click(function() {
 				$('.time').removeClass('time_now');
@@ -17,7 +32,32 @@
 				that.showList();
 				return false;
 			});
+			// ok click;
+			$('#write_ok').click(function() {
+				var title = $('#add_title').val();
+				var achieve = $('#add_achieve').val();
+				var tags = $('#add_tag').val();
+				var content = tqEditor.content();
+				 
+				if(title == '' || achieve == '' || tags == ''|| content == '') {
+					alert('请输入完整的文章信息！');
+				}else {
+					$('#write').val(content);
+					$('#add_form').submit();	
+				}
+				return false;
+			});
+
+			$("#write_delete").click(function() {
+				var is_delete = confirm('确定要删除么?');
+				if(!is_delete) {
+					return false;
+				}
+				return true;
+			});
+
 		},
+		
 		showList: function() {
 			var top = $('.time_now').position().top;
 
@@ -47,7 +87,7 @@
 	window.onload = function() {
 		var back = new master();
 		back.tagToggle();
-		back.timeClick();
+		back.handleClick();
 		back.hiddenList();
 	};
 })();

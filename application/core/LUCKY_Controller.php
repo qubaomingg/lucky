@@ -10,6 +10,13 @@ class LUCKY_Controller extends CI_Controller
 		$this->title = 'lucky_pixeldot';
 		$this->load->helper('url');
 	}
+	function show_tips($str,$url)
+	{
+		header('Content-Type: text/html; charset=utf-8');
+		echo ($url === "document.referrer" ) ?
+			"<script>alert('$str');location.href=$url;</script>" :
+			"<script>alert('$str');location.href='$url';</script>";
+	}
 }
 
 ?>

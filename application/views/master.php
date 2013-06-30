@@ -13,13 +13,21 @@
     <meta name="author" content="lucky_pixeldot" />
   
     <!-- link -->
-    <link rel="stylesheet" href="../css/master.css">
-	<link rel="stylesheet" href="../css/component/YUI_reset.css">
-	
-	<script src="../js/components/jquery.js"></script>
+    <?php
+    	$baseUrl= base_url();
+    	if(isset($article))
+    	{	
+    		$isArticle = TRUE;
+    		$article_title = $article[0]['atitle'];
+    		$detailid = $article[0]['detailid'];	
+    	}
+    	
+    ?>
+    <link rel="stylesheet" href="<?php echo $baseUrl."css/master.css"?>">
+	<link rel="stylesheet" href="<?php echo $baseUrl."css/component/YUI_reset.css"?>">
+	<script src="<?php echo $baseUrl."js/components/jquery.js"?>"></script>
 	<!-- xhedit插件引入 -->
-	<script type="text/javascript" src="../js/components/TQEditor.js"></script>
-	
+	<script type="text/javascript" src="<?php echo $baseUrl."js/components/TQEditor.js"?>"></script>
 </head>
 <body>
 
@@ -28,11 +36,11 @@
 		<div id="header_content">
 			<header>
 				<div>
-					<a class="back_write" href="">撰写blog</a>
+					<a class="back_write" href="<?php echo $baseUrl."/master/write"?>">撰写blog</a>
 					<ul>
-						<li><a href=""><img src="../img/back_ok.png" alt="ok"></a></li>
-						<li><a href=""><img src="../img/back_modify.png" alt="modify"></a></li>
-						<li><a href=""><img src="../img/back_delete.png" alt="delete"></a></li>
+						<li><a id="write_ok" href=""><img src="<?php echo $baseUrl."img/back_ok.png"?>" alt="ok"></a></li>
+						<li><a <?php  if (isset($article)): ?>href="<?php echo $baseUrl."master/update/$detailid"?>"<?php endif;?>>><img src="<?php echo $baseUrl."img/back_modify.png"?>" alt="modify"></a></li>
+						<li><a id="write_delete" <?php  if (isset($article)): ?>href="<?php echo $baseUrl."master/delete/$detailid"?>"<?php endif;?>><img src="<?php echo $baseUrl."img/back_delete.png"?>" alt="delete"></a></li>
 					</ul>
 				</div>
 			</header>
@@ -70,17 +78,16 @@
 					</div>
 				</aside>
 
-				<?php if (!isset($isWrite)): ?>
+				<?php if (!isset($isWrite) || !isset($isUpdate)): ?>
 					<div class="back_article">
 						<article >
 							
 							<div class="back_article_header">
-								<h2>推荐！22个超赞的扁平化设计经典案例</h2>
-								<time>2013/04/02｜21</time>
+								<h2><?php echo $article[0]['atitle']?></h2>
+								<time><?php echo $article[0]['atime']?>｜<?php echo $article[0]['anum']?></time>
 							</div>
 							<section>
-								<p>不难发现，有一个新的简约设计趋势(风格)正向我们袭来。想必大家已经猜到咯，Flat Design！刚刚改版的新浪首页也更加简洁干练，扁平透气的风格也让很多小网龄用户感觉潮流新颖。那么，跟随潮流的设计师们，你们准备好学习这种设计手法了么？或者超前的你已经深得要领了？嘿嘿！这可不是就像有些人说的，仅仅是剥开所有的3 d元素、渐变、阴影和特效呢。</p>
-								<p>扁平化设计的纯粹和简单，以及它倡导的”歇斯底里的简约”，逐渐被用户认可、欣赏。如果你厌倦了繁琐的这一切，想依靠点什么来玩些新花样，那么是时候在你的稿子里注入Flat Design的因子了。今天我们展现了22个漂亮的例子，为你在学习Flat Design设计风格的过程中，零距离感受这股势不可挡的设计趋势。相信接下来会是一场灵感的饕餮盛宴，尽情享用吧：）</p>
+								<?php echo $article[0]['abody']?>								
 							</section>
 						</article>
 						<div class="article_list">
@@ -107,28 +114,41 @@
 				<?php endif; ?>
 				
 				
-				<?php if (isset($isWrite)): ?>
+				<?php if (isset($isWrite) || isset($isUpdate)): ?>
 					<div id="addArticle">
-						<form id="add_form" action="#" method="post" name="add_form">
+
+						<form id="add_form" action="<?php if(isset($isWrite)):?> <?php echo $baseUrl."/master/save"?><?php else;?><?php echo $baseUrl."/master/update_article"?><?php endif; ?>" method="post" name="add_form">
+						
 							<fieldset>
 								<legend>addArticle</legend>
 								<p>
-									<label for="add_achieve">归类</label>
-									<input type="text" id="add_achieve" name="add_achieve">
-								</p>
-								<p>
 									<label for="add_title">标题</label>
-									<input type="text" id="add_title" name="add_title">
+									<input type="text" id="add_title" name="add_title" <?php  if (isset($update_title)): ?>value="<?php echo $update_title ?>"<?php endif;?> autofocus>
 								</p>
 								<p>
-									<label for="add_tag">标签</label>
-									<input type="text" id="add_tag" name="add_tag">
+									<label for="add_achieve">归类</label>
+									<select name="add_achieve" id="add_achieve">
+										<option value="设计篇"  <?php  if (isset($update_type) &&  $update_type == 1): ?>selected="selected"<?php endif;?> >设计篇</option>
+										<option value="个人篇" <?php  if (isset($update_type) &&  $update_type == 2): ?>selected="selected"<?php endif;?>>个人篇</option>
+										<option value="读书上路" <?php  if (isset($update_type) && $update_type == 3): ?>selected="selected"<?php endif;?>>读书上路</option>
+									</select>
 								</p>
 								
-								<textarea id="write" class="xheditor" rows="10" cols="50">			</textarea>
+								<p>
+									<label for="add_tag">标签</label>
+									<input type="text" id="add_tag" <?php  if (isset($update_tag)): ?>value="<?php echo $update_tag ?>"<?php endif;?> name="add_tag" placeholder="多个标签用逗号隔开">
+									<p id="oldTag">
+
+										<?php foreach ($tags as $tag) :?>
+											<span><?php echo $tag['tagbody'] ?></span>
+										<?php endforeach; ?>
+									</p>
+								</p>
+								
+								<textarea id="write" name="content" class="xheditor" rows="10" cols="80"><?php  if (isset($update_content)): ?><?php echo $update_content ?><?php endif;?></textarea>
 								<script type="text/javascript" defer="true"> 
 									// 自定义ＴＱＥｄｉｔｏｒ的图标
-									new tqEditor('write',{toolbar:['paragraph','fontname','fontsize','forecolor','backcolor','bold','italic','underline','strikethrough','|','justifyleft','justifycenter','justifyright','unorderedlist','iodent','outdent','indent','inserhorizontalrule','createlink','unlink','subscript','superscript','|','inserttable','insertface','insertimage'],toolbarRight:['fullscreen','help']}); 
+									var tqEditor = new tqEditor('write',{toolbar:['paragraph','fontname','fontsize','forecolor','backcolor','bold','italic','underline','strikethrough','|','justifyleft','justifycenter','justifyright','unorderedlist','iodent','outdent','indent','inserhorizontalrule','createlink','unlink','subscript','superscript','|','inserttable','insertface','insertimage'],toolbarRight:['fullscreen','help']}); 
 								</script>
 							</fieldset>
 						</form>
@@ -142,6 +162,6 @@
 		</footer>	
 	</div>
 	
-	<script src="../js/master.js"></script>
+	<script src="<?php echo $baseUrl."js/master.js"?>"></script>
 </body>
 </html>

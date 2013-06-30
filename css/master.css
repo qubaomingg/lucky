@@ -78,7 +78,7 @@ header {
 
 #social {
   position: absolute;
-  left: 798px;
+  left: 793px;
   top: 58px
 }
 
@@ -174,6 +174,7 @@ header {
 	top:0;
 	left: 0;
 	overflow: hidden;
+	display: none;
 	background: #ffffff;
 	width: 671px;
 	height: 580px;
@@ -237,13 +238,28 @@ header {
 }
 /* write */
 #addArticle {
-	
 	width: 83.3%; 
 	float: left;
 }
+#add_achieve {
+	width: 280px;
+}
 #add_form {
-	margin-left: 10px;
+	margin-left: 30px;
 	
+}
+
+#oldTag {
+	display: inline-block;
+	margin-left: 35px;
+}
+#oldTag span{
+	background: #2ea4d8;
+	color: white;
+	margin-left: 4px;
+	padding: 5px;
+	border-radius: 10px;
+	cursor: pointer;
 }
 #add_form legend {
 	display: none;
