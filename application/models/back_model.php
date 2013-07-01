@@ -34,60 +34,70 @@ class Back_model  extends CI_Model
 		return ($query->num_rows() > 0) ?
 					TRUE : FALSE;
 	}
-	public function update($add_title, $add_achieve, $array_tag, $content)
+	public function update($add_title, $add_achieve, $array_tag, $content, $detailid)
 	{
-		$this->db->trans_start();
-		// if the tag is existed then do not save.
+	
+		$aid = $this->get_aid($detailid);
+
+		$aid = $aid[0]['aid'];
+		
+		//$this->db->trans_start();
+		
+		// update table article_detailid.
+		$this->db->query("update article_detail set atitle ='".$add_title."'where detailid = '".$detailid."'");
+		
+		$this->db->query("update article_detail set abody ='".$content."' where detailid = '".$detailid."'");
+
+		// update table article.
+		$this->db->query("update article set atype ='".$add_achieve."' where detailid = '".$detailid."'");
+
+
+		// update table tag.r
 		foreach ($array_tag as $key => $value) {
+			// delete that not use.
+
+			$tagid = $this->get_tagid($value);	
+
+			$tagid = $tagid[0]['tagid'];
+			if($tagid)
+			{
+				$res = $this->db->query('select aid from article_tag where tagid ='.$tagid);
+				$aids = ($res->num_rows() > 0) ? $res->result_array() : FALSE;	
+				if(count($aids) > 1) {
+					$this->db->query('delete from tag where tagid='.$tagid);
+				}
+			}
+			// insert new.
 			$has_tag = $this->is_tag_exist($value);
 			if(!$has_tag)
 			{
 				$data1 = array('tagbody' => $value);
-				$this->db->update('tag',$data1);
+				$this->db->insert('tag',$data1);
 			}
-						
 		}
-		
-		$data2 = array(
-			'atitle' => $add_title,
-			'abody' => $content,
-			'atime' => date('Y-m-d')
-		);
-		
-	   	$res =  $this->db->insert('article_detail',$data2);
 
-	    $detailids = $this->get_detailid($add_title);
-	    
-		$data3 = array(
-			'atype' => $add_achieve,
-			'detailid' => $detailids[0]['detailid']
-		);
-		$this->db->insert('article', $data3);
+		// update table article_tag
 		
-		if($has_tag)
-		{	
-			$aid = $this->get_aid($data3['detailid']);
-			foreach ($array_tag as $key => $value) {
-				$tagid = $this->get_tagid($value);	
-				$data4 = array(
-					'tagid' => $tagid[0]['tagid'],
-					'aid' => $aid[0]['aid']
-				);
-				$res = $this->db->insert('article_tag', $data4);
-			}
+		$this->db->query('delete from article_tag where aid = '.$aid);
+		foreach ($array_tag as $key => $value) {
+			$tagid = $this->get_tagid($value);	
+			$tagid = $tagid[0]['tagid'];
+			$this->db->query('insert into article_tag(tagid, aid) values('.$tagid.','.$aid.')');	
 		}
-	    $this->db->trans_complete();
 		
+		//$this->db->trans_complete();
+
 		if($this->db->trans_status() === FALSE)
 		{
 			$this->db->trans_rollback();
 		}
-		return $data3['detailid'];
+		return $detailid;
 	}
 	public function save($add_title, $add_achieve, $array_tag, $content)
 	{
-		$this->db->trans_start();
+		//$this->db->trans_start();
 		// if the tag is existed then do not save.
+		// save table tag.
 		foreach ($array_tag as $key => $value) {
 			$has_tag = $this->is_tag_exist($value);
 			if(!$has_tag)
@@ -98,35 +108,35 @@ class Back_model  extends CI_Model
 						
 		}
 		
+		// save table article_detail.
 		$data2 = array(
 			'atitle' => $add_title,
 			'abody' => $content,
 			'atime' => date('Y-m-d')
 		);
-		
 	   	$res =  $this->db->insert('article_detail',$data2);
 
+	   	// save table article.
 	    $detailids = $this->get_detailid($add_title);
-	    
 		$data3 = array(
 			'atype' => $add_achieve,
 			'detailid' => $detailids[0]['detailid']
 		);
 		$this->db->insert('article', $data3);
 		
-		if($has_tag)
-		{	
-			$aid = $this->get_aid($data3['detailid']);
-			foreach ($array_tag as $key => $value) {
-				$tagid = $this->get_tagid($value);	
-				$data4 = array(
-					'tagid' => $tagid[0]['tagid'],
-					'aid' => $aid[0]['aid']
-				);
-				$res = $this->db->insert('article_tag', $data4);
-			}
+		//save table article_tag.
+
+		$aid = $this->get_aid($data3['detailid']);
+		foreach ($array_tag as $key => $value) {
+			$tagid = $this->get_tagid($value);
+
+			$data4 = array(
+				'tagid' => $tagid[0]['tagid'],
+				'aid' => $aid[0]['aid']
+			);
+			$res = $this->db->insert('article_tag', $data4);
 		}
-	    $this->db->trans_complete();
+	    //$this->db->trans_complete();
 		
 		if($this->db->trans_status() === FALSE)
 		{
@@ -192,6 +202,7 @@ class Back_model  extends CI_Model
 		return ($res->num_rows() > 0) ?
 					$res->result_array() : FALSE;	
 	}
+
 	public function get_title($detailid)
 	{
 		$this->db->select('atitle');
@@ -233,6 +244,7 @@ class Back_model  extends CI_Model
 		return ($query->num_rows() > 0) ?
 					$query->result_array() : FALSE;	
 	}
+	
 	private function get_aid($detailid)
 	{
 

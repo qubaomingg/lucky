@@ -65,7 +65,9 @@ class Master extends Lucky_Controller
 		if($detailid)
 		{
 			$this->show_tips($str1,$url1);
-		}else {
+		}
+		else
+		{
 			$this->show_tips($str2,$url2);
 		}
 	}
@@ -95,6 +97,7 @@ class Master extends Lucky_Controller
 		$title = $this->back_model->get_title($detailid);
 		$title = $title[0]['atitle'];
 
+
 		$type = $this->back_model->get_type($detailid);
 		$type = $type[0]['atype'];
 
@@ -120,7 +123,9 @@ class Master extends Lucky_Controller
 		$data['update_tag'] = $tag_str;
 		$data['update_content'] = $content;
 		$data['isUpdate'] = true;
-		$this->load->view('master',$data);
+		$data['detailid'] = $detailid;
+
+		$this->load->view('master',$data);	
 
 	}
 
@@ -131,22 +136,25 @@ class Master extends Lucky_Controller
 		$data['article'] = $article;
 		$this->load->view('master', $data);
 	}
-	public function update_article()
+	public function update_article($detailid)
 	{
+
 		$url2 = "javascript:history.go(-1)";
 		$str1 = "更新成功.";
 		$str2 = "更新失败，请重试~";
 		
+
 		$add_title = $this->input->post("add_title",TRUE);
 		$add_achieve = $this->input->post("add_achieve",TRUE);
 		$add_tags = $this->input->post('add_tag', TRUE);
 		$content = $this->input->post('content');
-				
-		$array_tag = explode(',', $add_tags);
-		
-		$detailid = $this->back_model->update($add_title, $add_achieve, $array_tag, $content);
 
+
+		$array_tag = explode(',', $add_tags);
+
+		$detailid = $this->back_model->update($add_title, $add_achieve, $array_tag, $content, $detailid);
 		$url1 = base_url("master/article/$detailid");
+
 		if($detailid)
 		{
 			$this->show_tips($str1,$url1);

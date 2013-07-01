@@ -1,3 +1,4 @@
+
 <?php
   require('auth.php');
 ?>
@@ -21,7 +22,7 @@
     		$article_title = $article[0]['atitle'];
     		$detailid = $article[0]['detailid'];	
     	}
-    	
+
     ?>
     <link rel="stylesheet" href="<?php echo $baseUrl."css/master.css"?>">
 	<link rel="stylesheet" href="<?php echo $baseUrl."css/component/YUI_reset.css"?>">
@@ -78,7 +79,7 @@
 					</div>
 				</aside>
 
-				<?php if (!isset($isWrite) || !isset($isUpdate)): ?>
+				<?php if (!isset($isWrite) && !isset($isUpdate)): ?>
 					<div class="back_article">
 						<article >
 							
@@ -117,7 +118,7 @@
 				<?php if (isset($isWrite) || isset($isUpdate)): ?>
 					<div id="addArticle">
 
-						<form id="add_form" action="<?php if(isset($isWrite)):?> <?php echo $baseUrl."/master/save"?><?php else;?><?php echo $baseUrl."/master/update_article"?><?php endif; ?>" method="post" name="add_form">
+						<form id="add_form" action="<?php if(isset($isWrite)):?> <?php echo $baseUrl."/master/save"?><?php else:?><?php echo $baseUrl."/master/update_article/$detailid"?><?php endif; ?>" method="post" name="add_form">
 						
 							<fieldset>
 								<legend>addArticle</legend>
@@ -128,9 +129,9 @@
 								<p>
 									<label for="add_achieve">归类</label>
 									<select name="add_achieve" id="add_achieve">
-										<option value="设计篇"  <?php  if (isset($update_type) &&  $update_type == 1): ?>selected="selected"<?php endif;?> >设计篇</option>
-										<option value="个人篇" <?php  if (isset($update_type) &&  $update_type == 2): ?>selected="selected"<?php endif;?>>个人篇</option>
-										<option value="读书上路" <?php  if (isset($update_type) && $update_type == 3): ?>selected="selected"<?php endif;?>>读书上路</option>
+										<option value="1"  <?php  if (isset($update_type) &&  $update_type == 1): ?>selected="selected"<?php endif;?> >设计篇</option>
+										<option value="2" <?php  if (isset($update_type) &&  $update_type == 2): ?>selected="selected"<?php endif;?>>个人篇</option>
+										<option value="3" <?php  if (isset($update_type) && $update_type == 3): ?>selected="selected"<?php endif;?>>读书上路</option>
 									</select>
 								</p>
 								
