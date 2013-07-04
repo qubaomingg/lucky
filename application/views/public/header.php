@@ -3,10 +3,10 @@
     ?>
 <header>
 	<div id="header_top">
-		<img src="<?php echo $baseUrl."img/hero.gif"?>" alt="logo" id="hero">
-		<p class="hero_name">lucky_pixeldot</p> 
+		<a href="<?php echo base_url()?>"><img src="<?php echo $baseUrl."img/hero.gif"?>" alt="logo" id="hero"></a>
+		<p class="hero_name"><a href="<?php echo base_url()?>">lucky_pixeldot</a></p> 
 		<div id="slogan">
-			<p class="hero_say">用研有女初长成</p>
+			<p class="hero_say"><a href="<?php echo base_url()?>">用研有女初长成</a></p>
 		</div>	
 		<div id="social">
 			<ul class="clearfix">

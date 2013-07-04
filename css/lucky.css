@@ -23,7 +23,10 @@ body {
   font-family: 'fzfsjt';
   background-color: white;
 }
-
+#slogan a, .hero_name a {
+  text-decoration: none;
+  color: #5e5d5c;
+}
 #wrap {
   width: 1024px;
   margin: 0 auto;
@@ -285,7 +288,6 @@ header {
 #navigation {
   height: 112px;
   background-color: #282725;
-
 }
 #article_list #navigation .iamcurrent {
   background: lightblue;

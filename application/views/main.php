@@ -23,7 +23,7 @@
 				<p>Welcome</p>
 			</div>
 			<div class="welcome_article">
-				<?php if($nearst_list[0]['img']!= NULL): ?>
+				<?php if(isset($nearst_list[0]['img'])): ?>
 					<div class="article_img"><img src="<?php echo $nearst_list[0]['img']?>" style="width:600px;height:308px"></div>
 				<?php endif;?>
 				<div class="article_content">
@@ -75,14 +75,19 @@
 				</aside>
 				<section id="achieve_detail">
 					<article>
-						<header class="article_header">
-							<h2><?php echo $nearst_list[0]['title'] ?></h2>
-							<p><?echo $nearst_list[0]['time']?> | 阅读: <?php echo $nearst_list[0]['num']?></p>
-						</header>
-						<section class="article_body">
-							<?php echo $nearst_list[0]['body']?>
-						</section>
-						
+						<?php if($nearst_list != NULL):?>
+							<header class="article_header">
+								<h2><?php echo $nearst_list[0]['title'] ?></h2>
+								<p><?echo $nearst_list[0]['time']?> | 阅读: <?php echo $nearst_list[0]['num']?></p>
+							</header>
+							<section class="article_body">
+								<?php echo $nearst_list[0]['body']?>
+							</section>
+						<?php else :?>
+							<header class="article_header">
+								<p>你还没有写文章哦！</p>
+							</header>
+						<?php endif;?>
 					</article>
 					<section id="list">
 						<div id="article_list"> 

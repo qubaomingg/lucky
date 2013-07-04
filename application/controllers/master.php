@@ -37,18 +37,84 @@ class Master extends Lucky_Controller
 		}
 		*/
 	}
+	private function get_num_type_time($type, $time) 
+	{
+		$num = $this->article_model->get_num_type_time($type, $time);
+		return $num;
+
+	}
+	public function get_master_article() 
+	{
+		$out = array();
+		$time = stripcslashes(trim($_POST['time']));
+		$type = stripcslashes(trim($_POST['type']));
+		$current = stripslashes(trim($_POST['current']));
+		/*$time = '2013';
+		$type = 2;
+		$current = 1;*/
+
+		$sum = $this->get_num_type_time($type, $time);
+		
+		$article = $this->article_model->get_master_article($type, $time, 2*($current-1), 2);
+		$out = $this->save_from_res($article);
+
+		$out['sum'] = $sum;
+		$out['year'] = $time;
+		
+		
+		/*echo '<pre>';
+		var_dump($out);
+		die;*/
+		echo json_encode($out);
+
+	}
+	private function save_from_res($res) 
+	{
+		$out = array();
+		if(!$res) return false;
+		foreach ($res as $num => $article) {
+			foreach ($article as $key => $value) {
+				if($key == 'abody')
+				{
+					$describe = $this->split_a_pagraph($value);
+					$out[$num]['describe'] = $describe;
+					$out[$num]['body'] = $value;
+				}
+				if($key == 'atitle') 
+				{
+					$out[$num]['title'] = $value;
+				}
+				if($key == 'atime')
+				{
+					$out[$num]['time'] = $value;
+				}
+				if($key == 'anum')
+				{
+					$out[$num]['num'] = $value;
+				}
+			}
+		}
+		return $out;
+	}
+	private function split_a_pagraph($str) 
+	{
+		$matches = array();
+		preg_match("/(?<=<p>).*?(?=<\/p>)/",$str,$matches);
+		if(!$matches){
+			$matches[0] = $str;
+		}
+		return $matches[0];
+	}
 	public function write() 
 	{
 		$tags = $this->back_model->get_tags();
 		$data['tags'] = $tags;
 		$data['isWrite'] = true;
-		
 		$this->load->view('master', $data);
 	}
 
 	public function save() 
-	{
-		
+	{	
 		$url2 = "javascript:history.go(-1)";
 		$str1 = "成功发布一条文章。";
 		$str2 = "发布文章失败，请重试~";
@@ -77,7 +143,7 @@ class Master extends Lucky_Controller
 		$url2 = "javascript:history.go(-1)";
 		$str1 = "删除成功！";
 		$str2 = "删除失败！";
-		$detailid = $this->back_model->delete_by_title($detailid);
+		$detailid = $this->back_model->delete_by_detailid($detailid);
 		
 		$detailid = $detailid[0]['detailid'];
 		$url1 = base_url("master/article/$detailid");

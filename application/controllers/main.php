@@ -36,7 +36,7 @@ class Main extends Lucky_Controller
 	// save data from model into array.
 	private function save_from_res($res) 
 	{
-		$out = array();
+				$out = array();
 
 		if(!$res) return false;
 		foreach ($res as $num => $article) {
@@ -91,6 +91,9 @@ class Main extends Lucky_Controller
 	{
 		$matches = array();
 		preg_match("/(?<=<p>).*?(?=<\/p>)/",$str,$matches);
+		if(!$matches){
+			$matches[0] = $str;
+		}
 		return $matches[0];
 	}
 

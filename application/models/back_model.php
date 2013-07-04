@@ -146,7 +146,7 @@ class Back_model  extends CI_Model
 
 	}
 
-	public function delete_by_title($detailid)
+	public function delete_by_detailid($detailid)
 	{
 
 		$title = $this->get_title($detailid);

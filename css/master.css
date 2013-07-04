@@ -18,7 +18,43 @@
 	font-family: 'fzfsjt';	
 	display: inline-block;
 }
+#slogan a, .hero_name a {
+	text-decoration: none;
+	color: #5e5d5c;
+}
+.error {
+  color:red;
+  margin: 40px;
+  font-size: 20px;
+}
+#navigation {
+  height: 112px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: #282725;
+}
+#navigation .iamcurrent {
+  background: lightblue;
+}
 
+#navigation li {
+  float: left;
+  margin-left: 10px;
+
+}
+#navigation a {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  text-align: center;
+  line-height: 30px;
+  color: #282725;
+  background-color: #f8fdf7;
+  list-style: none;
+  text-decoration: none;
+  
+}
 #wrap {
   width: 1024px;
   margin: 0 auto;
@@ -152,7 +188,9 @@ header {
 	padding: 40px;
 	display: line-block;
 }
-
+.back_article_header {
+	margin-bottom: 10px;
+}
 .back_article_header h2 {
 	font-size: 18px;
 	color:#fa7f3c;
@@ -174,11 +212,20 @@ header {
 	top:0;
 	left: 0;
 	overflow: hidden;
-	display: none;
 	background: #ffffff;
-	width: 671px;
-	height: 580px;
+	width: 0px;
+	height: 10px;
 	box-shadow: 0 3px 10px;
+}
+.article_list li {
+	cursor: pointer;
+	padding: 10px;
+}
+.article_list li:hover {
+	outline:2px #0192d3 solid;
+}
+#navigation li:hover {
+	outline: none;
 }
 .article_list ul {
 	padding: 30px 41px 3px 41px;
@@ -246,7 +293,8 @@ header {
 }
 #add_form {
 	margin-left: 30px;
-	
+	border-top: 3px solid #e86f50;
+	padding-top: 20px;
 }
 
 #oldTag {

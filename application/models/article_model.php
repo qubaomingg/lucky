@@ -11,11 +11,18 @@ class Article_model  extends CI_Model
 		
 	}
 
+	public function get_master_article($type, $time, $skip, $per_page_num) 
+	{
+		
+		$res = $this->db->query('select ad.atitle, ad.atime, ad.anum, ad.abody, ad.detailid from article_detail as ad inner join article as a using(detailid) where a.atype = '.$type.' and ad.atime like "'.$time.'%" order by ad.atime desc  limit '.$skip.','.$per_page_num);
+
+		return ($res->num_rows() > 0) ?
+					$res->result_array() : FALSE;	
+	}
 	public function get_recently_des($num) 
 	{
 
 		$res = $this->db->query('select ad.atitle,ad.atime, ad.anum, ad.abody,ad.detailid from article_detail as ad order by ad.atime desc limit '.$num);
-
 		return ($res->num_rows() > 0) ?
 					$res->result_array() : FALSE;
 	}
@@ -36,7 +43,13 @@ class Article_model  extends CI_Model
 		return ($res->num_rows() > 0) ?
 					$res->result_array() : FALSE;	
 	}
-
+	public function get_num_type_time($type, $time) 
+	{
+		$res = $this->db->query('select ad.anum from article_detail as ad inner join article as a using(detailid) where a.atype = '.$type.' and ad.atime like "'.$time.'%"');
+		$num = $res->num_rows();
+		return $num;		
+	}
+	
 	public function get_articlenum_type($type)
 	{
 		$this->db->select('*');

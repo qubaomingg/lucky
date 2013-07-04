@@ -1,0 +1,23 @@
+CREATE TABLE article (
+  aid int(11) NOT NULL AUTO_INCREMENT,
+  atype int(11) DEFAULT NULL,
+  detailid int(11) DEFAULT NULL,
+  PRIMARY KEY (aid)
+) 
+CREATE TABLE article_detail (
+  detailid int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  atime date DEFAULT NULL,
+  anum int(11) DEFAULT 0,
+  abody text,
+  atitle varchar(20) DEFAULT NULL 
+)
+CREATE TABLE article_tag (
+  tagid int(11) NOT NULL DEFAULT 0,
+  aid int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (tagid,aid)
+)
+CREATE TABLE tag (
+  tagid int(11) NOT NULL AUTO_INCREMENT,
+  tagbody varchar(20) DEFAULT NULL,
+  PRIMARY KEY (tagid)
+)

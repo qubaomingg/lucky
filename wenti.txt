@@ -1,3 +1,4 @@
 // f2e
-1 'welcome' has teared away;
-2 
+1 首页标签,时间动态生成 ,type的数字
+2 首页转动箭头 
+3 首页留言等
