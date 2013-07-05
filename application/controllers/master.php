@@ -13,6 +13,7 @@ class Master extends Lucky_Controller
 		$data['title'] = 'lucky';
 
 		$article = $this->article_model->get_recently_des(1);
+		
 		$data['article'] = $article;
 		$this->load->view('master', $data);
 		/*
@@ -110,6 +111,7 @@ class Master extends Lucky_Controller
 		$tags = $this->back_model->get_tags();
 		$data['tags'] = $tags;
 		$data['isWrite'] = true;
+		
 		$this->load->view('master', $data);
 	}
 

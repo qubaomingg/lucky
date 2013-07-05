@@ -13,8 +13,8 @@ class Back_model  extends CI_Model
 
 	public function get_tags() 
 	{
-		$this->db->select('tagbody');
-		$query = $this->db->get('tag');
+		$query = $this->db->query("select tagbody from tag order by tagid asc limit 5");
+		
 		return ($query->num_rows() > 0) ?
 					$query->result_array() : FALSE;
 	}

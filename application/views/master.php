@@ -22,7 +22,6 @@
     		$article_title = $article[0]['atitle'];
     		$detailid = $article[0]['detailid'];	
     	}
-
     ?>
     <link rel="stylesheet" href="<?php echo $baseUrl."css/master.css"?>">
 	<link rel="stylesheet" href="<?php echo $baseUrl."css/component/YUI_reset.css"?>">

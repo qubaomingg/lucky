@@ -7,9 +7,10 @@ class Main extends Lucky_Controller
 		parent::__construct();
 		$this->load->model('article_model');
 	}		
+
 	public function index()
 	{	
-		
+
 		// the nearst aricle info.
 		$nearst_list = $this->get_nearst_list();
 		$data['nearst_list'] = $nearst_list;
@@ -18,12 +19,59 @@ class Main extends Lucky_Controller
 		$init_num = $this->get_articlenum_type(1);//type = 1 article num;
 		$data['onenum'] = $init_num;
 		
-		//article list
+		// article list
 		$article_list = $this->get_list_type_init();
 		$data['article_list'] = $article_list;
+
+		// get achieve_time
+		$data['achieve_time'] = $this->get_achieve_time();
+
+		// num of type
+		$num_design = $this->article_model->get_num_type(1);
+		
+		$num_person = $this->article_model->get_num_type(2);
+		$num_read = $this->article_model->get_num_type(3);
+
+		$data['num_design'] = $num_design;
+		$data['num_person'] = $num_person;
+		$data['num_read'] = $num_read;
 		$this->load->view('main', $data);
 	}
 
+	public function get_achieve_time()
+	{
+		$date = array();
+		$achieve_time = array();
+		$time = $this->article_model->get_time();
+		
+		foreach ($time as $key => $value) {
+			$date[$key] = array(
+					'year' => substr($value['atime'], 0, 4),
+					'month' => substr($value['atime'], 5,2)
+				);
+		}
+		foreach ($date as $key => $value) {
+			if(count($achieve_time) == 0) 
+			{
+				$achieve_time[$key] = array(
+					'year' => $value['year'],
+					'month' => $value['month']
+				);			
+			}
+			foreach ($achieve_time as $num => $year_month) {
+				if($value['year'] != $year_month['year'] && $value['month'] != $year_month['month'])
+				{
+					$achieve_time[$key] = array(
+						'year' => $value['year'],
+						'month' => $value['month']
+					);			
+				}
+			}
+			
+			
+		}
+		return $achieve_time;
+	}
 	//每一个函数都根据view的需要吧查询的数据进行封装。
 	//return nearst article:title time nun body describe 
 	private function get_nearst_list() 

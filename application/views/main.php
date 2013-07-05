@@ -44,11 +44,12 @@
 			<div id="submain"> <!-- 好处:点击welcome动画后文章不会在最下面动 -->
 				<aside id="achieve">
 					<ul class="achieve_nav clearfix">
-						<li ><a href="">设计篇(0)</a></li>
-						<li class="achieve_nav_active"><a href="">个人篇(1)</a></li>
-						<li><a href="">读书上路(0)</a></li>
+						<li ><a href="">设计篇(<?php echo $num_design?>)</a></li>
+						<li class="achieve_nav_active"><a href="">个人篇(<?php echo $num_person?>)</a></li>
+						<li><a href="">读书上路(<?php echo $num_read?>)</a></li>
 					</ul>
 					<a href="" class="list_taggle"></a>
+					<!-- 常用的几个标签 -->
 					<ul class="achieve_item achieve_tag clearfix">
 						<li class="achieve_item_tag">标签</li>
 						<li class="tag_big"><a data-value="1" href="">PSD</a></li>
@@ -58,12 +59,13 @@
 						<li class="tag_small"><a data-value="5" href="">好文</a></li>
 						<li class="tag_small"><a data-value="6" href="">界面设计</a></li>
 					</ul>
+					<!-- 离现在最近的四个月 -->
 					<ul class="achieve_item achieve_time clearfix">
 						<li class="achieve_item_tag">存档时间</li>
-						<li class="time"><a data-value="2013-06" href="">2013 年6月</a></li>
-						<li class="time"><a data-value="2013-05" href="">2013 年5月</a></li>
-						<li class="time"><a data-value="2013-04" href="">2013 年4月</a></li>
-						<li class="time"><a data-value="2013-03" href="">2013 年3月</a></li>
+						<?php foreach ($achieve_time as $key => $value) :?>
+							<li class="time"><a data-value="<?php echo $value['year']?>-<?php echo $value['month']?>" href=""><?php echo $value['year']?> 年<?php echo $value['month']?>月</a></li>
+						<?php endforeach ;?>
+						
 					</ul>
 					<ul class="achieve_item achieve_focus clearfix">
 						<li class="achieve_item_tag">我的关注</li>

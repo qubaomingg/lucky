@@ -21,3 +21,5 @@ CREATE TABLE tag (
   tagbody varchar(20) DEFAULT NULL,
   PRIMARY KEY (tagid)
 )
+
+默认有首页的几个: PSD UI 网页设计 用户体验 好文 界面设计

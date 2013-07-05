@@ -11,16 +11,19 @@
 		<div id="social">
 			<ul class="clearfix">
 				<li>
-					<a href=""><img src="<?php echo $baseUrl."img/twitter.png"?>"></a>
-					<span>Twitter</span>
+					<a id="mainpage" href="<?php echo base_url()?>">首页</a>
+					<!-- <a href=""><img src="<?php echo $baseUrl."img/twitter.png"?>"></a>
+					<span>Twitter</span> -->
 				</li>
 				<li>
-					<a href=""><img src="<?php echo $baseUrl."img/facebook.png"?>"></a>
-					<span>Facebook</span>
+					<a id="message" href="#">留言</a>
+					<!-- <a href=""><img src="<?php echo $baseUrl."img/facebook.png"?>"></a>
+					<span>Facebook</span> -->
 				</li>
 				<li>
-					<a href=""><img src="<?php echo $baseUrl."img/dribble.png"?>" alt=""></a>
-					<span>Dribbble</span>
+					<a id="about" href="#">关于</a>
+					<!-- <a href=""><img src="<?php echo $baseUrl."img/dribble.png"?>" alt=""></a>
+					<span>Dribbble</span> -->
 				</li>
 			</ul>
 		</div>

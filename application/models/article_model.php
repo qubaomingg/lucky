@@ -11,6 +11,12 @@ class Article_model  extends CI_Model
 		
 	}
 
+	public function get_time()
+	{
+		$query = $this->db->query('select atime from article_detail');
+		return ($query->num_rows() > 0) ?
+					$query->result_array() : FALSW;
+	}
 	public function get_master_article($type, $time, $skip, $per_page_num) 
 	{
 		
@@ -18,6 +24,11 @@ class Article_model  extends CI_Model
 
 		return ($res->num_rows() > 0) ?
 					$res->result_array() : FALSE;	
+	}
+	public function get_num_type($num)
+	{
+		$res = $this->db->query('select * from article where atype ='.$num);
+		return $res->num_rows();
 	}
 	public function get_recently_des($num) 
 	{

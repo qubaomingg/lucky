@@ -97,7 +97,28 @@ header {
   font-family: 'agencyb';
   color: gray;
 }
-
+#about,#message,#mainpage {
+  width: 48px;
+  height: 48px;
+  font-size: 16px;
+  font-family: 'fzsejt';
+  text-align: center;
+  line-height: 48px;
+  display: inline-block;
+  border-radius: 30px;
+  background: #41d4aa;
+  border: 4px white solid;
+  text-decoration: none;
+  color: white;
+}
+#mainpage {
+  color:white;
+  background: #0192d3;
+}
+#message {
+  color: black;
+  background: white;
+}
 /*   main mi=712px*/
 
 #main {
