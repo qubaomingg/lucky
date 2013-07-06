@@ -17,8 +17,4 @@ fontend need to beautify.
 
 play up !~
 
-now: 
-  1: 后台文章展示和修改删除关联
-  2: 首页的留言等。
-  3: 文章数量
 
