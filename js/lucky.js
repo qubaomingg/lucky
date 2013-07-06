@@ -1,6 +1,31 @@
 (function($) {
 	var lucky = function(){};
 	lucky.prototype = {
+		draw_circle: function() {
+			var canvas = document.getElementById('list_taggle');
+			var ctx = canvas.getContext('2d');
+			ctx.save();
+			ctx.fillStyle = 'white';
+			ctx.beginPath();
+			ctx.arc(17,17,17,0,Math.PI*2,true);
+			ctx.closePath();
+			ctx.fill();
+
+			ctx.restore();
+			ctx.fillStyle = '#0192d3';
+			ctx.beginPath();
+			ctx.arc(17,17,14,0,Math.PI*2,true);
+			ctx.closePath();
+			ctx.fill();
+
+			ctx.lineWidth = 4;
+			ctx.strokeStyle = 'white';
+			ctx.beginPath();
+			ctx.moveTo(20,12);
+			ctx.lineTo(13,17);
+			ctx.lineTo(20,22);
+			ctx.stroke();
+		},
 		the_same_height: function(obj1, obj2) {
 			var h1 = parseInt(obj1.css('height'));
 			var h2 = parseInt(obj2.css('height'));
@@ -9,17 +34,27 @@
 			obj2.css('height', larger + 'px');
 		},
 		roll_arrow: function() {
-			$('.list_taggle').hover(function() {
+			
+			$('#list_taggle').hover(function() {
 				$(this).addClass('arrowRotate');
+				$('#list_taggle').css('-webkit-transform','rotateY(180deg)');
 			},function() {
-				$(this).removeClass('arrowRotate');
+				$('#list_taggle').removeClass('arrowRotate');
 			});
+			
 		},
 
 		hand_click: function() {
 			that = this;
 			//welcome 2 aticle
 			$('.welcome_article .read_all').click(function() {
+				var title = $(this).siblings('.article_txt').find('h1').text();
+				$.ajax({
+					type: 'POST',
+					url: '/main/set_num_welcome',
+					timeout: 10000,
+					data: {'title': title}
+				});
 				$('#welcome').animate({
 					'width': '0px',
 					'left': '480px'
@@ -42,9 +77,18 @@
 				}, 500);
 				return false;
 			});
+			$('.list_taggle_outer').click(function() {
+				$('.achieve_nav_active').click();
+				return false;
+			});
 			// click somewhere to hide list
 			$.each([$('header'), $('#achieve_detail article')], function() {
 				$(this).on('click', function() {
+					var type = $('.achieve_nav_active').index() + 1;
+					$('.list_taggle_outer').append($("<canvas id='list_taggle' width='35' height='35'></canvas>"));
+					that.draw_circle();
+					that.roll_arrow();
+					_move_arrow(type);
 					var top = $('.achieve_nav_active').position().top;
 					$('#list').animate({
 						'height': '40px',
@@ -54,21 +98,51 @@
 								$(this).hide();
 							});
 					});	
+					function _move_arrow(type) {
+							
+							if(type == 1) {
+								$('.list_taggle_outer').animate({
+									'top': '3px'
+								},'slow');
+							} else if(type == 2) {
+								$('.list_taggle_outer').animate({
+									'top': '44px'
+								},'slow');
+							} else {
+								$('.list_taggle_outer').animate({
+									'top': '84px'
+								},'slow');
+							}
+						}
 				});
 			});
 			// click nav li fadeIn list
 			
 			$('.achieve_nav li').click(function() {
+				$('#list_taggle').fadeOut('slow', function() {
+					$('.list_taggle_outer').empty();	
+				});
 				$('.achieve_nav li').removeClass('achieve_nav_active');
 				$(this).addClass('achieve_nav_active');
 				var top = $('.achieve_nav_active').position().top;
 				show_article_list(top);
 				return false;
 			});
-
+			var that = this;
 			// read all click.
 			$('#article_list').on('click', '.read_all a', function() {
 				var title = $(this).parents('.article_show').find('header').find('h2').text();
+				$('.list_taggle_outer').append($("<canvas id='list_taggle' width='35' height='35'></canvas>"));
+				
+				that.draw_circle();
+				that.roll_arrow();
+				$.ajax({
+					type: 'POST',
+					url: '/main/set_num_welcome',
+					timeout: 10000,
+					data: {'title': title}
+				});
+
 				$.ajax({
 					type: 'POST',
 					url: '/main/get_read_all',
@@ -76,9 +150,29 @@
 					timeout: 10000,
 					data: {'title': title},
 					success: function(json) {
+						var type = json['type'];
+						
+						_move_arrow(type);
+						
 						var article_detail = '';
 						article_detail += "<header class='article_header'><h2>"+json['atitle']+"</h2><p>"+json['atime']+" | 阅读: "+json['anum']+"</p></header><section class='article_body'>"+json['abody']+"</section>";
 						$("#achieve_detail article").empty().html(article_detail);
+						function _move_arrow(type) {
+							
+							if(type == 1) {
+								$('.list_taggle_outer').animate({
+									'top': '3px'
+								},'slow');
+							} else if(type == 2) {
+								$('.list_taggle_outer').animate({
+									'top': '44px'
+								},'slow');
+							} else {
+								$('.list_taggle_outer').animate({
+									'top': '84px'
+								},'slow');
+							}
+						}
 					},
 					error: function() {
 						var error = "<p class='error'>I'm sorry, your Internet connection is not good, please try again later</p>";
@@ -181,7 +275,7 @@
 				time_ajax(querytime, current);
 				return false;
 			});
-			
+		
 			// click nav li to ask for list info
 			$('.achieve_nav li').click(function() {
 				var type = $(this).index() + 1;
@@ -189,6 +283,7 @@
 				type_ajax(type, current);
 			});
 
+			
 			// helpers: json(sum,img,describe.title. time. num), current,type
 			function json2divstr(json, type, current) {
 				var pre, fakenext, fakecurrent = 0;
@@ -219,7 +314,7 @@
 				for(var key in json) {
 
 					if(key != 'sum' && key != 'tagbody' && sum != 0 ) {
-						article_list_child += "<div class='article_show'><article><header class='article_header'><h2>"+json[key].title+"</h2><p>"+json[key].time+" | 阅读:"+json[key].num+" </p></header>";
+						article_list_child += "<div class='article_show'><article><header class='article_header'><h2>"+json[key].title+"</h2><p>"+json[key].time+" | 阅读:<span>"+json[key].num+" </span></p></header>";
 						if(json[key].img) {
 							article_list_child += "<img src=" + json[key].img+" style='width:638px;height:149px'>";
 						}
@@ -318,13 +413,12 @@
 			}
 			function show_article_list(top) {
 				$('#list').show();
-				
 				$('#list').css('top', top + 'px');
 				$('#list').animate({
 					'width':'725px'
 				},200,function() {
 					$('#main').css('overflow', 'visible');
-					$(this).animate({'height': '690px','top': top - 3 + 'px'},100);
+					$(this).animate({'height': '438px','top': top - 3 + 'px'},100);
 				});
 			}
 		}
@@ -334,6 +428,7 @@
 		
 		pixeldot.roll_arrow();
 		pixeldot.hand_click();
+		pixeldot.draw_circle();
 	};
 })(jQuery);
 

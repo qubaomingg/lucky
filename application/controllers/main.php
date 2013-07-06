@@ -14,7 +14,9 @@ class Main extends Lucky_Controller
 		// the nearst aricle info.
 		$nearst_list = $this->get_nearst_list();
 		$data['nearst_list'] = $nearst_list;
-		
+		/*echo '<pre>';
+		var_dump($nearst_list);
+		die;*/
 		// type num
 		$init_num = $this->get_articlenum_type(1);//type = 1 article num;
 		$data['onenum'] = $init_num;
@@ -72,6 +74,18 @@ class Main extends Lucky_Controller
 		}
 		return $achieve_time;
 	}
+	public function set_num_welcome()
+	{
+		$title = stripslashes(trim($_POST['title']));
+		
+		$num = $this->article_model->get_num_title($title);
+		
+		$num = $num[0]['anum'];
+
+		$quer = $this->article_model->set_num_title($title,$num);
+
+	}
+
 	//每一个函数都根据view的需要吧查询的数据进行封装。
 	//return nearst article:title time nun body describe 
 	private function get_nearst_list() 
@@ -84,8 +98,7 @@ class Main extends Lucky_Controller
 	// save data from model into array.
 	private function save_from_res($res) 
 	{
-				$out = array();
-
+		$out = array();
 		if(!$res) return false;
 		foreach ($res as $num => $article) {
 			foreach ($article as $key => $value) {
@@ -142,6 +155,7 @@ class Main extends Lucky_Controller
 		if(!$matches){
 			$matches[0] = $str;
 		}
+		
 		return $matches[0];
 	}
 
@@ -169,6 +183,10 @@ class Main extends Lucky_Controller
 		$title = stripslashes(trim($_POST['title']));
 		
 		$article = $this->article_model->get_article_title($title);
+		$detailid = $article[0]['detailid'];
+		$type = $this->article_model->get_type($detailid);
+		$article[0]['type'] = $type[0]['atype'];
+		
 		echo json_encode($article[0]);
 	}
 

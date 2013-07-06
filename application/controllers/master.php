@@ -11,6 +11,15 @@ class Master extends Lucky_Controller
 	public function index()
 	{
 		$data['title'] = 'lucky';
+		// num of type
+		$num_design = $this->article_model->get_num_type(1);
+		
+		$num_person = $this->article_model->get_num_type(2);
+		$num_read = $this->article_model->get_num_type(3);
+
+		$data['num_design'] = $num_design;
+		$data['num_person'] = $num_person;
+		$data['num_read'] = $num_read;
 
 		$article = $this->article_model->get_recently_des(1);
 		
@@ -111,6 +120,15 @@ class Master extends Lucky_Controller
 		$tags = $this->back_model->get_tags();
 		$data['tags'] = $tags;
 		$data['isWrite'] = true;
+		// num of type
+		$num_design = $this->article_model->get_num_type(1);
+		
+		$num_person = $this->article_model->get_num_type(2);
+		$num_read = $this->article_model->get_num_type(3);
+
+		$data['num_design'] = $num_design;
+		$data['num_person'] = $num_person;
+		$data['num_read'] = $num_read;
 		
 		$this->load->view('master', $data);
 	}
@@ -183,8 +201,20 @@ class Master extends Lucky_Controller
 		
 		$content = $this->back_model->get_content($detailid);
 		$content = $content[0]['abody'];
+		// num of type
+		$num_design = $this->article_model->get_num_type(1);
+		
+		$num_person = $this->article_model->get_num_type(2);
+		$num_read = $this->article_model->get_num_type(3);
 
+		$data['num_design'] = $num_design;
+		$data['num_person'] = $num_person;
+		$data['num_read'] = $num_read;
+		
 		$tags = $this->back_model->get_tags();
+
+
+		
 		$data['tags'] = $tags;
 		$data['update_title'] = $title;
 		$data['update_type'] = $type;
@@ -201,6 +231,15 @@ class Master extends Lucky_Controller
 	{
 		$article = $this->article_model->get_article_detailid($detailid);
 		$data = array();
+		// num of type
+		$num_design = $this->article_model->get_num_type(1);
+		
+		$num_person = $this->article_model->get_num_type(2);
+		$num_read = $this->article_model->get_num_type(3);
+
+		$data['num_design'] = $num_design;
+		$data['num_person'] = $num_person;
+		$data['num_read'] = $num_read;
 		$data['article'] = $article;
 		$this->load->view('master', $data);
 	}

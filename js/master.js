@@ -66,8 +66,8 @@
 				var title = $('#add_title').val();
 				var achieve = $('#add_achieve').val();
 				var tags = $('#add_tag').val();
-				var content = tqEditor.content();
-
+				var content = tqEditor.changeMode('code').content();
+				console.log(content);
 				 
 				if(title == '' || achieve == '' || tags == ''|| content == '') {
 					alert('请输入完整的文章信息！');

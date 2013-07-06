@@ -47,7 +47,7 @@
 			<section id="content" class="clearfix">
 				<aside>
 					<div id="about_design">
-						<a class="about_me_tag" href="">设计篇（<span>0</span>）</a>
+						<a class="about_me_tag" href="">设计篇（<span><?php echo $num_design?></span>）</a>
 						<ul>
 							<li class="save_time">存档时间:</li>
 							<li data-type="1" data-value="2013" class="time time_now"><a href="">2013 年</a></li>
@@ -57,7 +57,7 @@
 						</ul>
 					</div>
 					<div id="about_me">
-						<a class="about_me_tag" href="">个人篇（<span>1</span>）</a>
+						<a class="about_me_tag" href="">个人篇（<span><?php echo $num_person?></span>）</a>
 						<ul>
 							<li class="save_time">存档时间:</li>
 							<li data-type="2" data-value="2013" class="time"><a href="">2013 年</a></li>
@@ -67,7 +67,7 @@
 						</ul>
 					</div>
 					<div id="about_road">
-						<a class="about_me_tag" href="">读书上路（<span>0</span>）</a>
+						<a class="about_me_tag" href="">读书上路（<span><?php echo $num_read?></span>）</a>
 						<ul>
 							<li class="save_time">存档时间:</li>
 							<li data-type="3" data-value="2013" class="time"><a href="">2013 年</a></li>

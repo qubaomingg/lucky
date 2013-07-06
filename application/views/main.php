@@ -48,7 +48,11 @@
 						<li class="achieve_nav_active"><a href="">个人篇(<?php echo $num_person?>)</a></li>
 						<li><a href="">读书上路(<?php echo $num_read?>)</a></li>
 					</ul>
-					<a href="" class="list_taggle"></a>
+					
+					<a href="" class="list_taggle_outer">
+						<canvas id="list_taggle" width="35" height="35"></canvas>
+					</a>
+
 					<!-- 常用的几个标签 -->
 					<ul class="achieve_item achieve_tag clearfix">
 						<li class="achieve_item_tag">标签</li>

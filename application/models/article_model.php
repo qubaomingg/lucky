@@ -11,6 +11,20 @@ class Article_model  extends CI_Model
 		
 	}
 
+	public function get_num_title($title)
+	{
+		$this->db->select('anum');
+		$this->db->where('atitle', $title);
+		$query = $this->db->get('article_detail');
+		return ($query->num_rows() > 0) ?
+					$query->result_array() : FALSE;	
+	}
+	public function set_num_title($title,$num)
+	{
+		$num = $num + 1;
+		$res = $this->db->query("update article_detail set anum = ".$num." where atitle = '".$title."'");
+		return $res;
+	}
 	public function get_time()
 	{
 		$query = $this->db->query('select atime from article_detail');
@@ -92,6 +106,12 @@ class Article_model  extends CI_Model
 		$query = $this->db->get('article_detail');
 		return ($query->num_rows() > 0) ?
 					$query->result_array() : FALSE;	
+	}
+	public function get_type($detailid)
+	{
+		$res = $this->db->query('select atype from article where detailid ='.$detailid);
+		return ($res->num_rows() > 0) ?
+					$res->result_array() : FALSE;	
 	}
 
 	// relative to tag
