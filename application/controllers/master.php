@@ -146,16 +146,9 @@ class Master extends Lucky_Controller
 		$array_tag = explode(',', $add_tags);
 		
 		$detailid = $this->back_model->save($add_title, $add_achieve, $array_tag, $content);
-
+		
 		$url1 = base_url("master/article/$detailid");
-		if($detailid)
-		{
-			$this->show_tips($str1,$url1);
-		}
-		else
-		{
-			$this->show_tips($str2,$url2);
-		}
+		$this->show_tips($str1,$url1);
 	}
 	public function delete($detailid) 
 	{

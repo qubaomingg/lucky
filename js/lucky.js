@@ -1,6 +1,31 @@
 (function($) {
 	var lucky = function(){};
 	lucky.prototype = {
+		msg_placeholder: function() {
+			that = this;
+			$.each([$('#nickname'), $('#email'), $('#blog'), $('#message_content')], function() {
+				that._placeholder($(this));
+			});
+			$('.placeholder').click(function(){
+				$(this).prev().focus();
+			});
+			$('.textarea_placeholder').click(function(){
+				$(this).prev().focus();
+			});
+			
+		},
+		_placeholder: function(obj) {
+			obj.focus(function() {
+				$(this).next('span').css('display','none');
+				$(this).css('outline','1px #0192d3 solid');
+			});
+			obj.blur(function() {
+				if(!$(this).val()) {
+					$(this).next('span').css('display','inline');	
+				}
+				$(this).css('outline','1px #3e3d3b solid');
+			});	
+		},
 		draw_circle: function() {
 			var canvas = document.getElementById('list_taggle');
 			var ctx = canvas.getContext('2d');
@@ -46,6 +71,78 @@
 
 		hand_click: function() {
 			that = this;
+			// response message.
+			$('.msg_response').click(function() {
+				// save time&name to class then form bring from here.
+				var time = $(this).prev().text();
+				var name = $(this).parents('.say').find('.message_orange').eq(0).text();
+				$(this).parents('.message_list').addClass('to_response');
+				$(this).parents('.message_list').attr('data-time', time);
+				$(this).parents('.message_list').attr('data-name', name);
+				
+				$('.msg_form input').eq(0).addClass('warning');
+				$('.msg_form input').eq(0).focus();
+				// remaind to cancel all of this!
+				return false;
+			});
+			// msg submit 
+			$('#update_msg_list').click(function() {
+				
+				// update list
+				$.ajax({
+					type:'POST',
+					url: '/main/update_msg_list',
+					timeout: 10000,
+					dataType: 'json',
+					success: function(json) {
+					
+						var message_main = '';
+						var msglist = json['msg'];
+						
+						for(var i in msglist) {
+							var imgsrc = msglist[i]['nickname'] == 'lucky_pixeldot' ? '../img/message_host.png' : '../img/message_guest.gif';
+							message_main += "<div class='message_list'><img src='"+imgsrc+"'><div class='say'><p><span class='message_orange'>"+msglist[i]['mnickname']+"</span>: "+msglist[i]['mbody']+"</p><p><span class='message_time'>"+msglist[i]['mtime']+"</span><a href='' class='msg_response message_orange'>[回复]</a></p></div></div>";
+						}
+						$('#message_main').empty().html(message_main);
+					},
+					error: function() {
+						// do nothing.
+					}
+				});
+			});
+			$('#msg_submit').click(function() {
+				// msg form submit 
+				var nickname = $('#nickname').val();
+				var email = $('#email').val();
+				var blog = $('#blog').val();
+				var msg = $('#message_content').val();
+				
+				$.ajax({
+					type:'POST',
+					url: '/main/msg',
+					timeout: 10000,
+					dataType: 'json',
+					data: {'nickname':nickname, 'email':email,'blog':blog,'message_content':msg},
+					success: function(json) {
+
+						$('.msg_form input').val('');
+						$('#message_content').val('');
+						$('.msg_form input').eq(3).val('留言');// 上面语句会吧留言也消除
+						$('.msg_form input').focus().blur();// generat placeholder
+						$('#message_content').focus().blur();
+						$('.msg_form input').eq(0).focus();
+					},
+					error: function() {
+						// do noting.
+					}
+				});
+
+				setTimeout(_updatelist, 1000);
+				function _updatelist() {
+					$('#update_msg_list').click();	
+				}
+				return false;
+			});
 			//welcome 2 aticle
 			$('.welcome_article .read_all').click(function() {
 				var title = $(this).siblings('.article_txt').find('h1').text();
@@ -425,7 +522,7 @@
 	};
 	window.onload = function() {
 		var pixeldot = new lucky();
-		
+		pixeldot.msg_placeholder();
 		pixeldot.roll_arrow();
 		pixeldot.hand_click();
 		pixeldot.draw_circle();

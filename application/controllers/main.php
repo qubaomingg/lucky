@@ -10,13 +10,15 @@ class Main extends Lucky_Controller
 
 	public function index()
 	{	
-
+		/*echo '<pre>';
+		$ni = date('Y.m.d H:i');
+		var_dump($ni);
+		die;*/
+		
 		// the nearst aricle info.
 		$nearst_list = $this->get_nearst_list();
 		$data['nearst_list'] = $nearst_list;
-		/*echo '<pre>';
-		var_dump($nearst_list);
-		die;*/
+		
 		// type num
 		$init_num = $this->get_articlenum_type(1);//type = 1 article num;
 		$data['onenum'] = $init_num;
@@ -45,7 +47,7 @@ class Main extends Lucky_Controller
 		$date = array();
 		$achieve_time = array();
 		$time = $this->article_model->get_time();
-		
+		if(!$time) return FALSE;
 		foreach ($time as $key => $value) {
 			$date[$key] = array(
 					'year' => substr($value['atime'], 0, 4),
@@ -88,9 +90,11 @@ class Main extends Lucky_Controller
 
 	//每一个函数都根据view的需要吧查询的数据进行封装。
 	//return nearst article:title time nun body describe 
-	private function get_nearst_list() 
+	public function get_nearst_list() 
 	{
+		
 		$recently_des = $this->article_model->get_recently_des(1);
+		
 		$out = array();
 		$out = $this->save_from_res($recently_des);
 		return $out;
@@ -105,13 +109,16 @@ class Main extends Lucky_Controller
 				if($key == 'abody')
 				{
 					$describe = $this->split_a_pagraph($value);
+
 					//获取文章body里面的images的src,存放在$matches
-					preg_match("/(?<=<img src=\").*?(?=\">)/i",$value,$matches);
-					$out[$num]['describe'] = $describe;
+					preg_match("/<img.*?src=[\\\'| \\\"](.*?(?:[\.gif|\.jpg]))[\\\'|\\\"].*?[\/]?>/",$value,$matches); 
+
+					
+					$out[$num]['describe'] = $describe;	
 					$out[$num]['body'] = $value;
 					if($matches) 
 					{
-						$out[$num]['img'] = $matches[0];	
+						$out[$num]['img'] = $matches[1];	
 					}
 					
 				}
@@ -206,7 +213,58 @@ class Main extends Lucky_Controller
 		
 		echo json_encode($out);//change array into json.
 	}
+	public function msg() 
+	{
+		$nickname = stripcslashes(trim($_POST['nickname']));
+		$email = stripcslashes(trim($_POST['email']));
+		$blog = stripslashes(trim($_POST['blog']));
+		$message_content = stripslashes(trim($_POST['message_content']));
 
+/*    	$nickname = 'fs';
+		$email = 'fs';
+		$blog = 'fs';
+		$message_content = 'fs';*/
+    	$res = $this->article_model->save_msg($nickname, $email, $blog, $message_content);
+/*
+		var_dump($res);
+		die;	*/
+		echo $res;
+	}
+
+	public function update_msg_list() 
+	{
+		/* 
+		*  return data form:
+		*	array(2) {
+		*		['msg'] = array(1) {
+		*			array(1) {
+		*				['mnickname'] = 'fs21',
+		*				['mbody'] = 'hello, luck',
+		*				['mtime'] = '2013/07/07 19:20',
+		*				['mid'] = '1'
+		*			}
+		*		},
+		*		['msg_res] = array(1) {
+		*			array(1) {
+		*				['mrnickname'] = 'fs21',
+		*				['mrbody'] = 'hello, luck',
+		*				['mrtime'] = '2013/07/07 19:20',
+		*				['mrto'] = 'luck',
+		*				['mid'] = '1'
+		*			}
+		*		}
+		*	}
+		*/
+		$data = array();
+
+		$msg = $this->article_model->get_msg();
+		//$msglist = $this->article_model->get_msg_list();
+		$data['msg'] = $msg;
+		/*echo '<pre>';
+		var_dump($data);
+		die; */
+		echo json_encode($data);
+	}
 	public function get_article_tag()
 	{
 		$out = array();

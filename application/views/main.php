@@ -17,6 +17,73 @@
 <body>
 	<section id="wrap">
 		<?php $this->load->view("public/header");?>
+		
+		<div id="message_body">
+			<div id="message_main">
+				<div class="message_list">
+					<img src="../img/message_guest.gif">
+					<div class="say">
+						<p><span class="message_orange">xxx</span>: 随便写点测试</p>
+						<p>
+							<span class="message_time">2013-02-20 00:00</span>
+							<a href="" class="message_orange msg_response">[回复]</a>
+						</p>
+					</div>
+				</div>
+				<div class="message_list">
+
+					<img src="../img/message_guest.gif">
+					<div class="say">
+						<p><span class="message_orange">xxx</span>: 随便写点测试</p>
+						<p>
+							<span class="message_time">2013-02-20 00:00</span>
+							<a href="" class="msg_response message_orange">[回复]</a>
+						</p>
+					</div>
+					<div class="message_response">
+						<img src="../img/message_host.png">
+						<div class="say">
+							<p>
+								<span class="message_orange">lucky_pixeldot</span>
+								    回复 <span class="message_orange">xxx</span>
+								    : 随便写点测试随便写点测试随便写点测试随便写点测试随便写点测试随便写点测试
+							</p>
+							<p>
+								<span class="message_time">2013-02-20 00:00</span>
+								<a href="" class="msg_response message_orange">[回复]</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="message_sider">
+				<form action="#" method="post" class="msg_form">
+					<fieldset>
+						<legend>message</legend>
+						<p class="nickname">
+							<label for="nickname">nickname</label>
+							<input id="nickname" type="text" name="nickname">
+							<span class="placeholder">nickname</span>
+						</p>
+						<p class="email">
+							<label for="email">email</label>
+							<input type="text" name="email" id="email">
+							<span class="placeholder">email</span>
+						</p>
+						<p class="blog">
+							<label for="blog">blog</label>
+							<input type="text" name="blog" id="blog">
+							<span class="placeholder">blog</span>
+						</p>
+						<textarea name="message_content" id="message_content" cols="22" rows="5"></textarea>
+						<span class="textarea_placeholder">something to say</span>
+						<input type="submit" value="留言" id="msg_submit">
+						<a href="#" id="update_msg_list">刷新留言列表，我是隐藏的</a>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+		
 		<section id="welcome">
 			<div id="welcome_text">
 				<span>”</span>
@@ -66,9 +133,11 @@
 					<!-- 离现在最近的四个月 -->
 					<ul class="achieve_item achieve_time clearfix">
 						<li class="achieve_item_tag">存档时间</li>
-						<?php foreach ($achieve_time as $key => $value) :?>
-							<li class="time"><a data-value="<?php echo $value['year']?>-<?php echo $value['month']?>" href=""><?php echo $value['year']?> 年<?php echo $value['month']?>月</a></li>
-						<?php endforeach ;?>
+						<?php if($achieve_time) :?>
+							<?php foreach ($achieve_time as $key => $value) :?>
+								<li class="time"><a data-value="<?php echo $value['year']?>-<?php echo $value['month']?>" href=""><?php echo $value['year']?> 年<?php echo $value['month']?>月</a></li>
+							<?php endforeach ;?>
+						<?php endif;?>
 						
 					</ul>
 					<ul class="achieve_item achieve_focus clearfix">

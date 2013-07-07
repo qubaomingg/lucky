@@ -11,6 +11,33 @@ class Article_model  extends CI_Model
 		
 	}
 
+	public function save_msg($nickname, $email, $blog, $message_content)
+	{
+		$data = array(
+			'mnickname' => $nickname,
+			'mbody' => $message_content,
+			'memail' => $email,
+			'mblog' => $blog,
+			'mtime' => date('Y.m.d H:i')
+		);
+		$res = $this->db->insert('msg', $data);
+		return $res;
+
+	}
+	public function get_msg() 
+	{
+		$this->db->select('*');
+		$res = $this->db->get('msg');
+		return ($res->num_rows() > 0) ?
+					$res->result_array() : FALSE;	
+	}
+	public function get_msg_list() 
+	{
+		$this->db->select('*');
+		$res = $this->db->get('msg_response');
+		return ($res->num_rows() > 0) ?
+					$query->result_array() : FALSE;	
+	}
 	public function get_num_title($title)
 	{
 		$this->db->select('anum');
@@ -29,7 +56,7 @@ class Article_model  extends CI_Model
 	{
 		$query = $this->db->query('select atime from article_detail');
 		return ($query->num_rows() > 0) ?
-					$query->result_array() : FALSW;
+					$query->result_array() : FALSE;
 	}
 	public function get_master_article($type, $time, $skip, $per_page_num) 
 	{
@@ -47,7 +74,8 @@ class Article_model  extends CI_Model
 	public function get_recently_des($num) 
 	{
 
-		$res = $this->db->query('select ad.atitle,ad.atime, ad.anum, ad.abody,ad.detailid from article_detail as ad order by ad.atime desc limit '.$num);
+		$res = $this->db->query('select ad.atitle,ad.atime, ad.anum, ad.time,ad.abody,ad.detailid from article_detail as ad order by ad.time desc limit '.$num);
+
 		return ($res->num_rows() > 0) ?
 					$res->result_array() : FALSE;
 	}

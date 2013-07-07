@@ -56,7 +56,7 @@ class Back_model  extends CI_Model
 		foreach ($array_tag as $key => $value) {
 			// delete that not use.
 
-			$tagid = $this->get_tagid($value);	
+			$tagid = $this->get_tagid($value);
 
 			$tagid = $tagid[0]['tagid'];
 			if($tagid)
@@ -95,7 +95,7 @@ class Back_model  extends CI_Model
 	}
 	public function save($add_title, $add_achieve, $array_tag, $content)
 	{
-		//$this->db->trans_start();
+		$this->db->trans_start();
 		// if the tag is existed then do not save.
 		// save table tag.
 		foreach ($array_tag as $key => $value) {
@@ -112,7 +112,8 @@ class Back_model  extends CI_Model
 		$data2 = array(
 			'atitle' => $add_title,
 			'abody' => $content,
-			'atime' => date('Y-m-d')
+			'atime' => date('Y-m-d'),
+			'time' => date('Y-m-d H:i:s')
 		);
 	   	$res =  $this->db->insert('article_detail',$data2);
 
@@ -136,18 +137,20 @@ class Back_model  extends CI_Model
 			);
 			$res = $this->db->insert('article_tag', $data4);
 		}
-	    //$this->db->trans_complete();
+	    $this->db->trans_complete();
 		
 		if($this->db->trans_status() === FALSE)
 		{
 			$this->db->trans_rollback();
 		}
+		
 		return $data3['detailid'];
 
 	}
 
 	public function delete_by_detailid($detailid)
 	{
+
 
 		$title = $this->get_title($detailid);
 		$title = $title[0]['atitle'];

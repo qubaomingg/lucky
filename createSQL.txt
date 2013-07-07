@@ -3,23 +3,62 @@ CREATE TABLE article (
   atype int(11) DEFAULT NULL,
   detailid int(11) DEFAULT NULL,
   PRIMARY KEY (aid)
-) 
+);
 CREATE TABLE article_detail (
   detailid int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   atime date DEFAULT NULL,
   anum int(11) DEFAULT 0,
   abody text,
+  time datetime,  
   atitle varchar(20) DEFAULT NULL 
-)
+);
 CREATE TABLE article_tag (
   tagid int(11) NOT NULL DEFAULT 0,
   aid int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (tagid,aid)
-)
+);
 CREATE TABLE tag (
   tagid int(11) NOT NULL AUTO_INCREMENT,
   tagbody varchar(20) DEFAULT NULL,
   PRIMARY KEY (tagid)
-)
+);
+CREATE TABLE tag (
+  tagid int(11) NOT NULL AUTO_INCREMENT,
+  tagbody varchar(20) DEFAULT NULL,
+  PRIMARY KEY (tagid)
+);
+
+CREATE TABLE msg(
+  mid int(11) NOT NULL AUTO_INCREMENT,
+  mnickname varchar(20),
+  mbody text,
+  mblog varchar(40),
+  memail varchar(40),
+  mtime datetime default 0
+  PRIMARY KEY (mid)
+);
+CREATE TABLE msg_response(
+  mrid int(11) NOT NULL AUTO_INCREMENT,
+  mid int(11),
+  mrnickname varchar(11),
+  mrbody text,
+  mrblog varchar(40),
+  mremail varchar(40),
+  mrto varchar(20),
+  mrtime datetime default 0
+  PRIMARY KEY (mrid)
+);
+
+
+create database lucky default charset utf8;
+
+alter table article_detail add column time datetime;
+
+insert into tag values('1', 'PSD');
+insert into tag values('2', 'UI');
+insert into tag values('3', '用户体验');
+insert into tag values('4', '好文');
+insert into tag values('5', '网站设计');
+
 
 默认有首页的几个: PSD UI 网页设计 用户体验 好文 界面设计
