@@ -30,7 +30,11 @@
 	<script type="text/javascript" src="<?php echo $baseUrl."js/components/TQEditor.js"?>"></script>
 </head>
 <body>
-
+<!--[if lt IE 9]>
+<div class = "ltie">
+    <p>您的浏览器已经过时了，为了更好的浏览体验，请下载<a href = 'http://www.google.co.kr/intl/zh-CN/chrome/browser/'>chrome</a>或<a href = 'http://www.mozilla.org/en-US/firefox/new/' >firefox</a>浏览器 ~ ~ </p>
+</div>
+<![endif]--> 
 	<div id="wrap">
 		<?php $this->load->view("public/header");?>
 		<div id="header_content">

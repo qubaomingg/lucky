@@ -34,7 +34,7 @@ CREATE TABLE msg(
   mbody text,
   mblog varchar(40),
   memail varchar(40),
-  mtime datetime default 0
+  mtime datetime default 0,
   PRIMARY KEY (mid)
 );
 CREATE TABLE msg_response(
@@ -45,7 +45,8 @@ CREATE TABLE msg_response(
   mrblog varchar(40),
   mremail varchar(40),
   mrto varchar(20),
-  mrtime datetime default 0
+  mrbelong varchar(20),
+  mrtime datetime default 0,
   PRIMARY KEY (mrid)
 );
 

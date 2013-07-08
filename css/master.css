@@ -11,6 +11,10 @@
   font-family: 'fzsejt';
   src: url(./fonts/fzsejt.ttf);
 }
+.ltie {
+	margin-left:300px;
+	color:red;
+}
 
 .about_me_tag, .back_write, .save_time, .time a{
 	text-align: center;
@@ -243,9 +247,26 @@ header {
 	cursor: pointer;
 	padding: 10px;
 }
+ @-webkit-keyframes waring {
+      from { background: white }
+      10% { background: #FFFFF0 }
+      30% { background: #FFFFE0 }
+      50% { background: #FFF0F5 }
+      60% { background: #FFEBCD }
+      80% { background: #FFF0F5 }
+      
+      to { background: #FFFFE0 }
+}
+
 .article_list li:hover {
 	outline:2px #0192d3 solid;
+	-webkit-transform-style: preserve-3d;
+	-webkit-transform-style: plat;
+	-webkit-animation: waring 1s 1 linear;
 }
+
+
+
 #navigation li:hover {
 	outline: none;
 }

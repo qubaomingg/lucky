@@ -33,8 +33,12 @@ body {
   background: #f2f3ee;
   position: relative;
   overflow: hidden;
-}
 
+}
+.ltie {
+  margin-left:300px;
+  color:red;
+}
 /*   header 162px*/
 
 header {
@@ -128,11 +132,10 @@ a {
   font-family: 'fzfsjt';
   font-size: 14px;
   background: #282725;
-  min-height: 600px;
-  max-height: 1000px;
   position: absolute;
   left: 276px;
   top: 113px;
+  display: none;
   overflow: hidden;
 }
 #message_main {
@@ -202,7 +205,7 @@ a {
   display: none;
 }
 #message_sider input {
-  font-size: 12px;
+  font-size: 14px;
   font-family: 'fzfsjt';
   color: #f2f3ee;
   padding: 3px;
@@ -222,7 +225,7 @@ input#msg_submit{
   text-align: center;
   cursor: pointer;
 }
-#update_msg_list {
+#update_msg_list,#update_msgresponse_list {
   display: none;
 }
 
@@ -518,8 +521,8 @@ input#msg_submit{
   height: 635px;
   background-color: #f2f3ee;
   position: absolute;
-  top: 600px;
-  /* top: 163px; */
+  /* top: 600px; */
+  top: 163px;
   z-index: 20;
   background: url(../img/welcome_bg.png) no-repeat;
 }
@@ -642,13 +645,14 @@ input#msg_submit{
 
 #more_wrap {
   position: relative;
-  top: 30%
+  top: 30%;
+
 }
 
 /*   footer  176px*/
 
 footer {
-  margin-top: 600px;
+  margin-top: 615px;
   height: 258px;
   color: #dbdcd7;
   background-color: #484745;

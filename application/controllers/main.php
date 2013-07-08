@@ -14,7 +14,7 @@ class Main extends Lucky_Controller
 		$ni = date('Y.m.d H:i');
 		var_dump($ni);
 		die;*/
-		
+
 		// the nearst aricle info.
 		$nearst_list = $this->get_nearst_list();
 		$data['nearst_list'] = $nearst_list;
@@ -213,6 +213,19 @@ class Main extends Lucky_Controller
 		
 		echo json_encode($out);//change array into json.
 	}
+	public function msg_res() 
+	{
+		$nickname = stripcslashes(trim($_POST['nickname']));
+		$email = stripcslashes(trim($_POST['email']));
+		$blog = stripslashes(trim($_POST['blog']));
+		$message_content = stripslashes(trim($_POST['message_content']));
+		$response_time = stripslashes(trim($_POST['response_time']));
+		$response_belongname = stripslashes(trim($_POST['response_belongname']));
+		$response_toname = stripslashes(trim($_POST['response_toname']));
+		
+		$res = $this->article_model->save_msg_res($nickname, $email, $blog, $message_content, $response_toname,$response_belongname,$response_time);
+		echo json_encode($res);
+	}
 	public function msg() 
 	{
 		$nickname = stripcslashes(trim($_POST['nickname']));
@@ -228,7 +241,7 @@ class Main extends Lucky_Controller
 /*
 		var_dump($res);
 		die;	*/
-		echo $res;
+		echo json_encode($res);
 	}
 
 	public function update_msg_list() 
@@ -258,11 +271,12 @@ class Main extends Lucky_Controller
 		$data = array();
 
 		$msg = $this->article_model->get_msg();
-		//$msglist = $this->article_model->get_msg_list();
+		$msglist = $this->article_model->get_msgresponse();
 		$data['msg'] = $msg;
+		$data['msglist'] = $msglist;
 		/*echo '<pre>';
-		var_dump($data);
-		die; */
+	    var_dump($data);
+	    die;*/
 		echo json_encode($data);
 	}
 	public function get_article_tag()

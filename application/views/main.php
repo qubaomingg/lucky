@@ -15,6 +15,11 @@
 	
 </head>
 <body>
+	<!--[if lt IE 9]>
+<div class = "ltie">
+    <p>您的浏览器已经过时了，为了更好的浏览体验，请下载<a href = 'http://www.google.co.kr/intl/zh-CN/chrome/browser/'>chrome</a>或<a href = 'http://www.mozilla.org/en-US/firefox/new/' >firefox</a>浏览器 ~ ~ </p>
+</div>
+<![endif]--> 
 	<section id="wrap">
 		<?php $this->load->view("public/header");?>
 		
@@ -23,9 +28,9 @@
 				<div class="message_list">
 					<img src="../img/message_guest.gif">
 					<div class="say">
-						<p><span class="message_orange">xxx</span>: 随便写点测试</p>
+						<p><span class="message_orange">sam</span>: 随便写点测试</p>
 						<p>
-							<span class="message_time">2013-02-20 00:00</span>
+							<span class="message_time">2013-07-08 11:08</span>
 							<a href="" class="message_orange msg_response">[回复]</a>
 						</p>
 					</div>
@@ -34,9 +39,9 @@
 
 					<img src="../img/message_guest.gif">
 					<div class="say">
-						<p><span class="message_orange">xxx</span>: 随便写点测试</p>
+						<p><span class="message_orange">fs21</span>: 随便写点测试</p>
 						<p>
-							<span class="message_time">2013-02-20 00:00</span>
+							<span class="message_time">2013-07-08 11:07</span>
 							<a href="" class="msg_response message_orange">[回复]</a>
 						</p>
 					</div>
@@ -44,7 +49,7 @@
 						<img src="../img/message_host.png">
 						<div class="say">
 							<p>
-								<span class="message_orange">lucky_pixeldot</span>
+								<span class="message_orange">sam</span>
 								    回复 <span class="message_orange">xxx</span>
 								    : 随便写点测试随便写点测试随便写点测试随便写点测试随便写点测试随便写点测试
 							</p>
@@ -79,6 +84,7 @@
 						<span class="textarea_placeholder">something to say</span>
 						<input type="submit" value="留言" id="msg_submit">
 						<a href="#" id="update_msg_list">刷新留言列表，我是隐藏的</a>
+						
 					</fieldset>
 				</form>
 			</div>

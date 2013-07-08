@@ -6,11 +6,13 @@
 			$.each([$('#nickname'), $('#email'), $('#blog'), $('#message_content')], function() {
 				that._placeholder($(this));
 			});
-			$('.placeholder').click(function(){
+			$('.placeholder').click(function(event){
 				$(this).prev().focus();
+				event.stopPropagation();
 			});
-			$('.textarea_placeholder').click(function(){
+			$('.textarea_placeholder').click(function(event){
 				$(this).prev().focus();
+				event.stopPropagation();
 			});
 			
 		},
@@ -71,20 +73,57 @@
 
 		hand_click: function() {
 			that = this;
+			// nav message click 
+			$('#message').click(function() {
+				// animate.
+				$('#message_body').fadeIn().animate({
+					'height': '530px'
+				},'slow');
+				$('#welcome').animate({
+					'top': '629px'
+				},'slow');
+				$('footer').animate({
+					'marginTop': '1130px'
+				},'slow');
+				$('#wrap').css('background','url(../img/welcome_bg.png) no-repeat');
+				// load message.
+				$('#update_msg_list').click();	
+				
+				return false;
+			});
+			$('#wrap').click(function(event) {
+				$('#message_body').fadeIn().animate({
+					'height': '0px'
+				},'slow');
+				$('#welcome').animate({
+					'top': '163px'
+				},'slow');
+				$('footer').animate({
+					'marginTop': '615px'
+				},'slow');
+				$('#wrap').css('background','');
+				event.stopPropagation();
+			});
 			// response message.
-			$('.msg_response').click(function() {
+			$('#message_main').on('click', '.msg_response', function() {
+				
 				// save time&name to class then form bring from here.
-				var time = $(this).prev().text();
-				var name = $(this).parents('.say').find('.message_orange').eq(0).text();
+				var belongname = $(this).parents('.message_list').find('.say').eq(0).find('.message_orange').eq(0).text();
+				var toname = $(this).parents('.say').find('.message_orange').eq(0).text();
+			
+				var time = $(this).parents('.message_list').find('.say').eq(0).find('.message_time').text();
+				
 				$(this).parents('.message_list').addClass('to_response');
 				$(this).parents('.message_list').attr('data-time', time);
-				$(this).parents('.message_list').attr('data-name', name);
+				$(this).parents('.message_list').attr('data-belongname', belongname);
+				$(this).parents('.message_list').attr('data-toname', toname);
 				
 				$('.msg_form input').eq(0).addClass('warning');
 				$('.msg_form input').eq(0).focus();
 				// remaind to cancel all of this!
 				return false;
 			});
+			
 			// msg submit 
 			$('#update_msg_list').click(function() {
 				
@@ -95,52 +134,134 @@
 					timeout: 10000,
 					dataType: 'json',
 					success: function(json) {
-					
 						var message_main = '';
-						var msglist = json['msg'];
 						
-						for(var i in msglist) {
-							var imgsrc = msglist[i]['nickname'] == 'lucky_pixeldot' ? '../img/message_host.png' : '../img/message_guest.gif';
-							message_main += "<div class='message_list'><img src='"+imgsrc+"'><div class='say'><p><span class='message_orange'>"+msglist[i]['mnickname']+"</span>: "+msglist[i]['mbody']+"</p><p><span class='message_time'>"+msglist[i]['mtime']+"</span><a href='' class='msg_response message_orange'>[回复]</a></p></div></div>";
+						var msglist = json['msg'];
+						var msgresponselist = json['msglist'];
+						if(!msglist) {
+							message_main = '<div class="message_list"><p style="color:white">还没有留言，去抢沙发呗～～</p></div>';
 						}
+						for(var i in msglist) {
+							var imgsrc = msglist[i]['mnickname'] == 'lucky_pixeldot' ? '../img/message_host.png' : '../img/message_guest.gif';
+							var mid = msglist[i]['mid'];
+							message_main += '<div class="message_list"><img src="'+imgsrc+'"><div class="say"><p><span class="message_orange">'+msglist[i]['mnickname']+'</span>: '+msglist[i]['mbody']+'</p><span class="message_time">'+msglist[i]['mtime']+'</span><a href="" class="msg_response message_orange">[回复]</a></p></div>';
+
+							for(var j in msgresponselist) {
+								if(msgresponselist[j]['mid'] == mid) {
+									var imgresponsesrc = msgresponselist[j]['mrnickname'] == 'lucky_pixeldot' ? '../img/message_host.png' : '../img/message_guest.gif';
+									message_main += '<div class="message_response"><img src="'+imgresponsesrc+'"><div class="say"><p><span class="message_orange">'+msgresponselist[j]['mrnickname']+'</span>回复 <span class="message_orange">'+msgresponselist[j]['mrto']+'</span>: '+msgresponselist[j]['mrbody']+'</p><p><span class="message_time">'+msgresponselist[j]['mrtime']+'</span><a href="" class="msg_response message_orange">[回复]</a></p></div></div>';
+								}
+							}
+							message_main += '</div>';
+						}
+
+
 						$('#message_main').empty().html(message_main);
 					},
 					error: function() {
-						// do nothing.
-					}
-				});
-			});
-			$('#msg_submit').click(function() {
-				// msg form submit 
-				var nickname = $('#nickname').val();
-				var email = $('#email').val();
-				var blog = $('#blog').val();
-				var msg = $('#message_content').val();
-				
-				$.ajax({
-					type:'POST',
-					url: '/main/msg',
-					timeout: 10000,
-					dataType: 'json',
-					data: {'nickname':nickname, 'email':email,'blog':blog,'message_content':msg},
-					success: function(json) {
-
+						alert('留言失败，请稍后再试～');
 						$('.msg_form input').val('');
 						$('#message_content').val('');
 						$('.msg_form input').eq(3).val('留言');// 上面语句会吧留言也消除
 						$('.msg_form input').focus().blur();// generat placeholder
 						$('#message_content').focus().blur();
 						$('.msg_form input').eq(0).focus();
-					},
-					error: function() {
-						// do noting.
 					}
 				});
+				return false;
+			});
+			$('#message_body').click(function(event) {
+				event.stopPropagation();
+			});
+			
+			$('#msg_submit').click(function() {
+				// get res_info;
+				var response_time = $('.to_response').attr('data-time');
+				var response_toname = $('.to_response').attr('data-toname');
+				var response_belongname = $('.to_response').attr('data-belongname');
+				response_time += ":00"; // adapt to mysql;
 
-				setTimeout(_updatelist, 1000);
-				function _updatelist() {
-					$('#update_msg_list').click();	
+				// delete res_info ;
+				$('.to_response').attr('data-time','').attr('data-name','').removeClass('to_response');
+				
+				// msg form submit 
+				var nickname = $('#nickname').val();
+				var email = $('#email').val();
+				var blog = $('#blog').val();
+				var msg = $('#message_content').val();
+				if( !nickname || !email || !msg) {
+					alert('信息完整点吧，方便联系你~');
+					$('.msg_form input').eq(0).focus();
+					return false;
 				}
+				if(!response_belongname) {
+					// 保存留言 刷新留言列表
+					$.ajax({
+						type:'POST',
+						url: '/main/msg',
+						timeout: 10000,
+						dataType: 'json',
+						data: {'nickname':nickname, 'email':email,'blog':blog,'message_content':msg},
+						success: function(json) {
+							
+							$('.msg_form input').val('');
+							$('#message_content').val('');
+							$('.msg_form input').eq(3).val('留言');// 上面语句会吧留言也消除
+							$('.msg_form input').focus().blur();// generat placeholder
+							$('#message_content').focus().blur();
+							$('.msg_form input').eq(0).focus();
+						},
+						error: function() {
+							// do noting.
+							alert('留言失败，请稍后再试～');
+							$('.msg_form input').val('');
+							$('#message_content').val('');
+							$('.msg_form input').eq(3).val('留言');// 上面语句会吧留言也消除
+							$('.msg_form input').focus().blur();// generat placeholder
+							$('#message_content').focus().blur();
+							$('.msg_form input').eq(0).focus();
+						}
+					});
+
+					setTimeout(_updatelist, 100);
+					function _updatelist() {
+						$('#update_msg_list').click();	
+					}
+				} else {
+					// 保存留言 刷新留言回复列表
+					$.ajax({
+						type:'POST',
+						url: '/main/msg_res',
+						timeout: 10000,
+						dataType: 'json',
+						data: {'nickname':nickname, 'email':email,'blog':blog,'message_content':msg,'response_time':response_time,'response_belongname':response_belongname,'response_toname':response_toname},
+						success: function(json) {
+							console.log(json);
+							$('.msg_form input').val('');
+							$('#message_content').val('');
+							$('.msg_form input').eq(3).val('留言');// 上面语句会吧留言也消除
+							$('.msg_form input').focus().blur();// generat placeholder
+							$('#message_content').focus().blur();
+							$('.msg_form input').eq(0).focus();
+						},
+						error: function() {
+							// do noting.
+							alert('留言失败，请稍后再试～');
+							$('.msg_form input').val('');
+							$('#message_content').val('');
+							$('.msg_form input').eq(3).val('留言');// 上面语句会吧留言也消除
+							$('.msg_form input').focus().blur();// generat placeholder
+							$('#message_content').focus().blur();
+							$('.msg_form input').eq(0).focus();
+						}
+					});
+					setTimeout(_updatelist, 100);
+					function _updatelist() {
+						$('#update_msg_list').click();	
+					}
+				}
+				
+				
 				return false;
 			});
 			//welcome 2 aticle
@@ -180,7 +301,7 @@
 			});
 			// click somewhere to hide list
 			$.each([$('header'), $('#achieve_detail article')], function() {
-				$(this).on('click', function() {
+				$(this).on('click', function(event) {
 					var type = $('.achieve_nav_active').index() + 1;
 					$('.list_taggle_outer').append($("<canvas id='list_taggle' width='35' height='35'></canvas>"));
 					that.draw_circle();
@@ -196,21 +317,22 @@
 							});
 					});	
 					function _move_arrow(type) {
-							
-							if(type == 1) {
-								$('.list_taggle_outer').animate({
-									'top': '3px'
-								},'slow');
-							} else if(type == 2) {
-								$('.list_taggle_outer').animate({
-									'top': '44px'
-								},'slow');
-							} else {
-								$('.list_taggle_outer').animate({
-									'top': '84px'
-								},'slow');
-							}
+						
+						if(type == 1) {
+							$('.list_taggle_outer').animate({
+								'top': '3px'
+							},'slow');
+						} else if(type == 2) {
+							$('.list_taggle_outer').animate({
+								'top': '44px'
+							},'slow');
+						} else {
+							$('.list_taggle_outer').animate({
+								'top': '84px'
+							},'slow');
 						}
+					}
+					event.stopPropagation();
 				});
 			});
 			// click nav li fadeIn list
@@ -374,10 +496,11 @@
 			});
 		
 			// click nav li to ask for list info
-			$('.achieve_nav li').click(function() {
+			$('.achieve_nav li').click(function(event) {
 				var type = $(this).index() + 1;
 				var current = 1;
 				type_ajax(type, current);
+				event.stopPropagation();
 			});
 
 			

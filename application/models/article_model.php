@@ -24,6 +24,32 @@ class Article_model  extends CI_Model
 		return $res;
 
 	}
+	public function save_msg_res($nickname, $email, $blog, $message_content, $response_toname,$response_belongname,$response_time)
+	{
+		$mid = $this->get_mid($response_belongname, $response_time);
+		$mid = $mid[0]['mid'];
+		$data = array(
+			'mrnickname' => $nickname,
+			'mrbody' => $message_content,
+			'mremail' => $email,
+			'mrblog' => $blog,
+			'mrtime' => date('Y.m.d H:i'),
+			'mrto' => $response_toname,
+			'mrbelong' => $response_belongname,
+			'mid' => $mid
+		);
+		$res = $this->db->insert('msg_response', $data);
+		return $res;
+	}
+
+
+	public function get_mid($response_name, $response_time)
+	{
+		$res = $this->db->query('select mid from msg where mnickname = "'.$response_name.'" and mtime = "'.$response_time.'"');
+		/* select mid from msg where mnickname = 'sam' and mtime = '2013-07-08 00:44:00'; */
+		return ($res->num_rows() > 0) ?
+					$res->result_array() : FALSE;
+	}
 	public function get_msg() 
 	{
 		$this->db->select('*');
@@ -31,12 +57,12 @@ class Article_model  extends CI_Model
 		return ($res->num_rows() > 0) ?
 					$res->result_array() : FALSE;	
 	}
-	public function get_msg_list() 
+	public function get_msgresponse() 
 	{
 		$this->db->select('*');
 		$res = $this->db->get('msg_response');
 		return ($res->num_rows() > 0) ?
-					$query->result_array() : FALSE;	
+					$res->result_array() : FALSE;	
 	}
 	public function get_num_title($title)
 	{
