@@ -1,5 +1,5 @@
 // f2e
-3 main message.
-5 master article format.
-6 update . save. 
-9 main display. welcome
+1 首页的背景不对
+2 留言和正文的动画不对
+3 留言的改进
+4 留言回复列表的头像不对
